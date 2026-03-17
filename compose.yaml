@@ -1,0 +1,20 @@
+﻿services:
+  financeflix:
+    image: financeflix
+    build:
+      context: .
+      dockerfile: FinanceFlix/Dockerfile
+
+  db:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: devuser
+      POSTGRES_PASSWORD: devpassword
+      POSTGRES_DB: testingdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+volumes:
+  db-data:

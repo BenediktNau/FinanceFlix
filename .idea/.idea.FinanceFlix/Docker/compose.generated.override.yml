@@ -1,0 +1,21 @@
+# This is a generated file. Not intended for manual editing.
+services:
+  financeflix:
+    build:
+      context: "/home/bnau/workspace/FinanceFlix"
+      dockerfile: "FinanceFlix/Dockerfile"
+      target: "base"
+    command: []
+    entrypoint:
+    - "dotnet"
+    - "/app/bin/Debug/net10.0/FinanceFlix.dll"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+    image: "financeflix:dev"
+    ports: []
+    volumes:
+    - "/home/bnau/workspace/FinanceFlix/FinanceFlix:/app:rw"
+    - "/home/bnau/workspace/FinanceFlix:/src:rw"
+    - "/home/bnau/.nuget/packages:/home/app/.nuget/packages"
+    working_dir: "/app"
