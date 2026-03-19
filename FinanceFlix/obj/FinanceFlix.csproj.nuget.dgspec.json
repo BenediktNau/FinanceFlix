@@ -1,26 +1,33 @@
 {
   "format": 1,
   "restore": {
-    "/home/bnau/workspace/FinanceFlix/FinanceFlix/FinanceFlix.csproj": {}
+    "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\FinanceFlix.csproj": {}
   },
   "projects": {
-    "/home/bnau/workspace/FinanceFlix/FinanceFlix/FinanceFlix.csproj": {
+    "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\FinanceFlix.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/bnau/workspace/FinanceFlix/FinanceFlix/FinanceFlix.csproj",
+        "projectUniqueName": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\FinanceFlix.csproj",
         "projectName": "FinanceFlix",
-        "projectPath": "/home/bnau/workspace/FinanceFlix/FinanceFlix/FinanceFlix.csproj",
-        "packagesPath": "/home/bnau/.nuget/packages/",
-        "outputPath": "/home/bnau/workspace/FinanceFlix/FinanceFlix/obj/",
+        "projectPath": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\FinanceFlix.csproj",
+        "packagesPath": "C:\\Users\\Nau_B\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "/home/bnau/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\Nau_B\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net10.0"
         ],
         "sources": {
-          "https://api.nuget.org/v3/index.json": {}
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {},
+          "https://vw-gitlab-01.tegut.org/api/v4/groups/205/-/packages/nuget/index.json": {}
         },
         "frameworks": {
           "net10.0": {
@@ -38,15 +45,29 @@
           "auditLevel": "low",
           "auditMode": "all"
         },
-        "SdkAnalysisLevel": "10.0.100"
+        "SdkAnalysisLevel": "10.0.200"
       },
       "frameworks": {
         "net10.0": {
           "targetAlias": "net10.0",
           "dependencies": {
+            "Mediator.Abstractions": {
+              "target": "Package",
+              "version": "[3.0.1, )"
+            },
+            "Mediator.SourceGenerator": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[3.0.1, )"
+            },
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
               "version": "[10.0.2, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[10.0.5, )"
             },
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
@@ -55,6 +76,12 @@
               "version": "[10.0.5, )"
             },
             "Microsoft.EntityFrameworkCore.Sqlite": {
+              "target": "Package",
+              "version": "[10.0.5, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
               "target": "Package",
               "version": "[10.0.5, )"
             }
@@ -78,7 +105,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/home/bnau/.dotnet/sdk/10.0.102/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.201/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.AspNetCore": "(,10.0.32767]",
             "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",

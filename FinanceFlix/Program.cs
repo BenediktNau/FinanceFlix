@@ -1,4 +1,7 @@
 using System.Text.Json.Serialization;
+using FinanceFlix;
+using FinanceFlix.Features.Transactions.Queries;
+using Mediator;
 using Microsoft.AspNetCore.Http.HttpResults;
 
 var builder = WebApplication.CreateSlimBuilder(args);
@@ -9,7 +12,9 @@ builder.Services.ConfigureHttpJsonOptions(options =>
 });
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+builder.Services.AddOpenApi()
+    .AddDbContext<DBContext>()
+    .AddMediator();
 
 var app = builder.Build();
 
@@ -28,8 +33,6 @@ Todo[] sampleTodos =
 ];
 
 var todosApi = app.MapGroup("/todos");
-
-
 todosApi.MapGet("/", () => sampleTodos)
     .WithName("GetTodos");
 
@@ -39,7 +42,18 @@ todosApi.MapGet("/{id}", Results<Ok<Todo>, NotFound> (int id) =>
             : TypedResults.NotFound())
     .WithName("GetTodoById");
 
-app.Run();
+
+
+var balanceApi = app.MapGroup("/balance");
+
+
+
+var transactionApi = app.MapGroup("/transaction");
+transactionApi.MapGet("/", async (IMediator mediator) =>
+    await mediator.Send(new GetAllTransactionsQuery()));
+
+
+app.Run("http://localhost:3000");
 
 public record Todo(int Id, string? Title, DateOnly? DueBy = null, bool IsComplete = false);
 
