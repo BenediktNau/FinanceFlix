@@ -34,7 +34,7 @@
           "Scriban": "6.2.0"
         }
       },
-      "Microsoft.AspNetCore.OpenApi/10.0.2": {
+      "Microsoft.AspNetCore.OpenApi/10.0.5": {
         "type": "package",
         "dependencies": {
           "Microsoft.OpenApi": "2.0.0"
@@ -587,20 +587,21 @@
           }
         }
       },
-      "Scriban/6.2.0": {
+      "Scriban/6.6.0": {
         "type": "package",
         "compile": {
-          "lib/net7.0/_._": {
+          "lib/net8.0/Scriban.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net7.0/_._": {
+          "lib/net8.0/Scriban.dll": {
             "related": ".xml"
           }
         },
         "build": {
-          "build/_._": {}
+          "build/Scriban.props": {},
+          "build/Scriban.targets": {}
         }
       },
       "SQLitePCLRaw.bundle_e_sqlite3/2.1.11": {
@@ -921,10 +922,10 @@
         "mediator.sourcegenerator.nuspec"
       ]
     },
-    "Microsoft.AspNetCore.OpenApi/10.0.2": {
-      "sha512": "YuEjUNpsoZLs0I5ONt013Z+Udsz3f9sPUh1Xm59LN7+/Z8oVG/swCUYLBbANtfreiunWnoT2uk+5kst4s2jr3Q==",
+    "Microsoft.AspNetCore.OpenApi/10.0.5": {
+      "sha512": "vTcxIfOPyfFbYk1g8YcXJfkMnlEWVkSnnjxcZLy60zgwiHMRf2SnZR+9E4HlpwKxgE3yfKMOti8J6WfKuKsw6w==",
       "type": "package",
-      "path": "microsoft.aspnetcore.openapi/10.0.2",
+      "path": "microsoft.aspnetcore.openapi/10.0.5",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -935,7 +936,7 @@
         "build/Microsoft.AspNetCore.OpenApi.targets",
         "lib/net10.0/Microsoft.AspNetCore.OpenApi.dll",
         "lib/net10.0/Microsoft.AspNetCore.OpenApi.xml",
-        "microsoft.aspnetcore.openapi.10.0.2.nupkg.sha512",
+        "microsoft.aspnetcore.openapi.10.0.5.nupkg.sha512",
         "microsoft.aspnetcore.openapi.nuspec"
       ]
     },
@@ -2279,21 +2280,21 @@
         "packageIcon.png"
       ]
     },
-    "Scriban/6.2.0": {
-      "sha512": "Mpd/9Q6LQn9jPGZR11gfytuZ5ivNgjnds1RB/3HzAdivhreX5mosRtqI87Zjafdxmm7HRgjZgdDYhiGVdytLwA==",
+    "Scriban/6.6.0": {
+      "sha512": "rDzWFaCLsnFMRifEs9F95mCQ1f9thva2ckXlHZ6xzCJ5SFqsB1u1Y/ZtQlc0iySg+H7HOR75J7ya2X4RmJvOFw==",
       "type": "package",
-      "path": "scriban/6.2.0",
+      "path": "scriban/6.6.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "build/Scriban.props",
         "build/Scriban.targets",
-        "lib/net7.0/Scriban.dll",
-        "lib/net7.0/Scriban.xml",
+        "lib/net8.0/Scriban.dll",
+        "lib/net8.0/Scriban.xml",
         "lib/netstandard2.0/Scriban.dll",
         "lib/netstandard2.0/Scriban.xml",
         "readme.md",
-        "scriban.6.2.0.nupkg.sha512",
+        "scriban.6.6.0.nupkg.sha512",
         "scriban.nuspec",
         "scriban.png",
         "src/Scriban/.editorconfig",
@@ -2755,11 +2756,12 @@
     "net10.0": [
       "Mediator.Abstractions >= 3.0.1",
       "Mediator.SourceGenerator >= 3.0.1",
-      "Microsoft.AspNetCore.OpenApi >= 10.0.2",
+      "Microsoft.AspNetCore.OpenApi >= 10.0.5",
       "Microsoft.EntityFrameworkCore >= 10.0.5",
       "Microsoft.EntityFrameworkCore.Design >= 10.0.5",
       "Microsoft.EntityFrameworkCore.Sqlite >= 10.0.5",
-      "Microsoft.EntityFrameworkCore.Tools >= 10.0.5"
+      "Microsoft.EntityFrameworkCore.Tools >= 10.0.5",
+      "Scriban >= 6.6.0"
     ]
   },
   "packageFolders": {
@@ -2825,7 +2827,7 @@
           },
           "Microsoft.AspNetCore.OpenApi": {
             "target": "Package",
-            "version": "[10.0.2, )"
+            "version": "[10.0.5, )"
           },
           "Microsoft.EntityFrameworkCore": {
             "target": "Package",
@@ -2846,6 +2848,10 @@
             "suppressParent": "All",
             "target": "Package",
             "version": "[10.0.5, )"
+          },
+          "Scriban": {
+            "target": "Package",
+            "version": "[6.6.0, )"
           }
         },
         "imports": [
@@ -3284,5 +3290,13 @@
         }
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "NU1900",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Error occurred while getting package vulnerability data: Unable to load the service index for source https://vw-gitlab-01.tegut.org/api/v4/groups/205/-/packages/nuget/index.json."
+    }
+  ]
 }

@@ -1,4 +1,4 @@
-namespace FinanceFlix.Models;
+namespace FinanceFlix.Models.Account;
 
 public class Account
 {

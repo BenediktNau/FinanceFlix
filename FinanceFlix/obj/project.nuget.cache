@@ -1,13 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "0vQpSCBbqN8=",
+  "dgSpecHash": "pEGhIoxznjg=",
   "success": true,
   "projectFilePath": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\FinanceFlix.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Nau_B\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\Nau_B\\.nuget\\packages\\mediator.abstractions\\3.0.1\\mediator.abstractions.3.0.1.nupkg.sha512",
     "C:\\Users\\Nau_B\\.nuget\\packages\\mediator.sourcegenerator\\3.0.1\\mediator.sourcegenerator.3.0.1.nupkg.sha512",
-    "C:\\Users\\Nau_B\\.nuget\\packages\\microsoft.aspnetcore.openapi\\10.0.2\\microsoft.aspnetcore.openapi.10.0.2.nupkg.sha512",
+    "C:\\Users\\Nau_B\\.nuget\\packages\\microsoft.aspnetcore.openapi\\10.0.5\\microsoft.aspnetcore.openapi.10.0.5.nupkg.sha512",
     "C:\\Users\\Nau_B\\.nuget\\packages\\microsoft.build.framework\\18.0.2\\microsoft.build.framework.18.0.2.nupkg.sha512",
     "C:\\Users\\Nau_B\\.nuget\\packages\\microsoft.codeanalysis.analyzers\\3.11.0\\microsoft.codeanalysis.analyzers.3.11.0.nupkg.sha512",
     "C:\\Users\\Nau_B\\.nuget\\packages\\microsoft.codeanalysis.common\\5.0.0\\microsoft.codeanalysis.common.5.0.0.nupkg.sha512",
@@ -29,7 +29,7 @@
     "C:\\Users\\Nau_B\\.nuget\\packages\\microsoft.visualstudio.solutionpersistence\\1.0.52\\microsoft.visualstudio.solutionpersistence.1.0.52.nupkg.sha512",
     "C:\\Users\\Nau_B\\.nuget\\packages\\mono.texttemplating\\3.0.0\\mono.texttemplating.3.0.0.nupkg.sha512",
     "C:\\Users\\Nau_B\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
-    "C:\\Users\\Nau_B\\.nuget\\packages\\scriban\\6.2.0\\scriban.6.2.0.nupkg.sha512",
+    "C:\\Users\\Nau_B\\.nuget\\packages\\scriban\\6.6.0\\scriban.6.6.0.nupkg.sha512",
     "C:\\Users\\Nau_B\\.nuget\\packages\\sqlitepclraw.bundle_e_sqlite3\\2.1.11\\sqlitepclraw.bundle_e_sqlite3.2.1.11.nupkg.sha512",
     "C:\\Users\\Nau_B\\.nuget\\packages\\sqlitepclraw.core\\2.1.11\\sqlitepclraw.core.2.1.11.nupkg.sha512",
     "C:\\Users\\Nau_B\\.nuget\\packages\\sqlitepclraw.lib.e_sqlite3\\2.1.11\\sqlitepclraw.lib.e_sqlite3.2.1.11.nupkg.sha512",
@@ -42,5 +42,15 @@
     "C:\\Users\\Nau_B\\.nuget\\packages\\system.composition.runtime\\9.0.0\\system.composition.runtime.9.0.0.nupkg.sha512",
     "C:\\Users\\Nau_B\\.nuget\\packages\\system.composition.typedparts\\9.0.0\\system.composition.typedparts.9.0.0.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "NU1900",
+      "level": "Warning",
+      "message": "Error occurred while getting package vulnerability data: Unable to load the service index for source https://vw-gitlab-01.tegut.org/api/v4/groups/205/-/packages/nuget/index.json.",
+      "projectPath": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\FinanceFlix.csproj",
+      "warningLevel": 1,
+      "filePath": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\FinanceFlix.csproj",
+      "targetGraphs": []
+    }
+  ]
 }

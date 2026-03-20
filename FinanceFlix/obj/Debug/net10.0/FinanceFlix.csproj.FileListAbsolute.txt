@@ -155,6 +155,7 @@ C:\Users\Nau_B\workspace\FinanceFlix\FinanceFlix\bin\Debug\net10.0\FinanceFlix.r
 C:\Users\Nau_B\workspace\FinanceFlix\FinanceFlix\bin\Debug\net10.0\FinanceFlix.dll
 C:\Users\Nau_B\workspace\FinanceFlix\FinanceFlix\bin\Debug\net10.0\FinanceFlix.pdb
 C:\Users\Nau_B\workspace\FinanceFlix\FinanceFlix\bin\Debug\net10.0\Humanizer.dll
+C:\Users\Nau_B\workspace\FinanceFlix\FinanceFlix\bin\Debug\net10.0\Mediator.dll
 C:\Users\Nau_B\workspace\FinanceFlix\FinanceFlix\bin\Debug\net10.0\Microsoft.AspNetCore.OpenApi.dll
 C:\Users\Nau_B\workspace\FinanceFlix\FinanceFlix\bin\Debug\net10.0\Microsoft.Build.Framework.dll
 C:\Users\Nau_B\workspace\FinanceFlix\FinanceFlix\bin\Debug\net10.0\Microsoft.CodeAnalysis.dll
@@ -296,4 +297,4 @@ C:\Users\Nau_B\workspace\FinanceFlix\FinanceFlix\obj\Debug\net10.0\refint\Financ
 C:\Users\Nau_B\workspace\FinanceFlix\FinanceFlix\obj\Debug\net10.0\FinanceFlix.pdb
 C:\Users\Nau_B\workspace\FinanceFlix\FinanceFlix\obj\Debug\net10.0\FinanceFlix.genruntimeconfig.cache
 C:\Users\Nau_B\workspace\FinanceFlix\FinanceFlix\obj\Debug\net10.0\ref\FinanceFlix.dll
-C:\Users\Nau_B\workspace\FinanceFlix\FinanceFlix\bin\Debug\net10.0\Mediator.dll
+C:\Users\Nau_B\workspace\FinanceFlix\FinanceFlix\bin\Debug\net10.0\Scriban.dll

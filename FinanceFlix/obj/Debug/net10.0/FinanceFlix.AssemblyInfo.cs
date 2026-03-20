@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("FinanceFlix")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f0c59387c5158f7f163d29293c0988c2beb8dbab")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b0e1b42c6ce91abe9efa3126a7e7ebc549773ea9")]
 [assembly: System.Reflection.AssemblyProductAttribute("FinanceFlix")]
 [assembly: System.Reflection.AssemblyTitleAttribute("FinanceFlix")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

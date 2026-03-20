@@ -1,6 +1,7 @@
 using System.Text.Json.Serialization;
 using FinanceFlix;
 using FinanceFlix.Features.Transactions.Queries;
+using FinanceFlix.Repositories;
 using Mediator;
 using Microsoft.AspNetCore.Http.HttpResults;
 
@@ -14,7 +15,8 @@ builder.Services.ConfigureHttpJsonOptions(options =>
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi()
     .AddDbContext<DBContext>()
-    .AddMediator();
+    .AddMediator(options => options.ServiceLifetime = ServiceLifetime.Scoped)
+    .AddScoped<ITransactionRepository, TransactionRepository>();
 
 var app = builder.Build();
 

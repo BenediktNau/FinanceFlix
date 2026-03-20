@@ -1,18 +1,18 @@
 ﻿using FinanceFlix.Features.Transactions.Queries;
-using FinanceFlix.Models;
 using FinanceFlix.Models.Common;
+using FinanceFlix.Models.Transaction;
+using FinanceFlix.Repositories;
 using Mediator;
-using Microsoft.EntityFrameworkCore;
 
 namespace FinanceFlix.Features.Transactions.Handlers
 {
     public class GetAllTransactionsHandler : IRequestHandler<GetAllTransactionsQuery, Result<List<Transaction>>>
     {
-        private readonly DBContext _db;
+        private readonly ITransactionRepository _repository;
 
-        public GetAllTransactionsHandler(DBContext db)
+        public GetAllTransactionsHandler(ITransactionRepository repository)
         {
-            _db = db;
+            _repository = repository;
         }
 
         public async ValueTask<Result<List<Transaction>>> Handle(
@@ -20,7 +20,7 @@ namespace FinanceFlix.Features.Transactions.Handlers
         {
             try
             {
-                var transactions = await _db.Transactions.ToListAsync(cancellationToken);
+                var transactions = await _repository.GetAllAsync(cancellationToken);
                 return Result<List<Transaction>>.Success(transactions);
             }
             catch (Exception ex)
@@ -28,7 +28,5 @@ namespace FinanceFlix.Features.Transactions.Handlers
                 return Result<List<Transaction>>.Failure(ex.Message);
             }
         }
-
-
     }
 }

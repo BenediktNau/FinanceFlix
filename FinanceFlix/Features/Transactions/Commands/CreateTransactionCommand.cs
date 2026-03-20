@@ -1,8 +1,10 @@
-﻿using Mediator;
-using System.Transactions;
+﻿using FinanceFlix.Models.Transaction;
+using Mediator;
 
 namespace FinanceFlix.Features.Transactions.Commands
 {
-    public class CreateTransactionCommand(Double amount, string description) : IRequest<Transaction> { };
-    
+    public class CreateTransactionCommand(
+        double amount,
+        string description,
+        TransactionCategory category) : IRequest<Transaction> { }
 }

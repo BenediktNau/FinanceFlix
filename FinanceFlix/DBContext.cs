@@ -1,4 +1,5 @@
-using FinanceFlix.Models;
+using FinanceFlix.Models.Account;
+using FinanceFlix.Models.Transaction;
 using Microsoft.EntityFrameworkCore;
 
 namespace FinanceFlix;
