@@ -1,0 +1,19 @@
+{
+  "applicationName": "application",
+  "apiDependencies": {
+    "ApiClient": {
+      "apiDescriptionUrl": "/home/bnau/workspace/FinanceFlix/openapi.json",
+      "apiDeploymentBaseUrl": "http://localhost:3000/",
+      "requests": [
+        {
+          "method": "GET",
+          "uriTemplate": "transaction"
+        }
+      ],
+      "extensions": {
+        "x-ms-kiota-hash": "A8C6CA0FF9441FCDA34D803317E93BF792BF919BB5052442DD23799946CE5529",
+        "x-ms-kiota-version": "1.30.0"
+      }
+    }
+  }
+}
