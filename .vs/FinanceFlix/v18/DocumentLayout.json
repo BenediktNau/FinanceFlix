@@ -3,12 +3,92 @@
   "WorkspaceRootPath": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|c:\\users\\nau_b\\workspace\\financeflix\\financeflix\\financeflix.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
-      "RelativeMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|solutionrelative:financeflix\\financeflix.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+      "AbsoluteMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|c:\\users\\nau_b\\workspace\\financeflix\\financeflix\\pipeline\\validationbehaviour.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|solutionrelative:financeflix\\pipeline\\validationbehaviour.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|c:\\users\\nau_b\\workspace\\financeflix\\financeflix\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|solutionrelative:financeflix\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|c:\\users\\nau_b\\workspace\\financeflix\\financeflix\\features\\transactions\\validator\\createtransactionvalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|solutionrelative:financeflix\\features\\transactions\\validator\\createtransactionvalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|c:\\users\\nau_b\\workspace\\financeflix\\financeflix\\pipeline\\loggingbehaviour.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|solutionrelative:financeflix\\pipeline\\loggingbehaviour.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|c:\\users\\nau_b\\workspace\\financeflix\\financeflix\\repositories\\transaction\\itransactionrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|solutionrelative:financeflix\\repositories\\transaction\\itransactionrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|c:\\users\\nau_b\\workspace\\financeflix\\financeflix\\models\\transaction\\transaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|solutionrelative:financeflix\\models\\transaction\\transaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|c:\\users\\nau_b\\workspace\\financeflix\\financeflix\\features\\transactions\\commands\\createtransactioncommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|solutionrelative:financeflix\\features\\transactions\\commands\\createtransactioncommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|c:\\users\\nau_b\\workspace\\financeflix\\financeflix\\features\\transactions\\handlers\\createtransactionhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|solutionrelative:financeflix\\features\\transactions\\handlers\\createtransactionhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|c:\\users\\nau_b\\workspace\\financeflix\\financeflix\\features\\transactions\\commands\\deletetransactioncommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|solutionrelative:financeflix\\features\\transactions\\commands\\deletetransactioncommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|c:\\users\\nau_b\\workspace\\financeflix\\financeflix\\financeflix.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|solutionrelative:financeflix\\financeflix.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|c:\\users\\nau_b\\workspace\\financeflix\\financeflix\\features\\transactions\\queries\\getalltransactionsquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|solutionrelative:financeflix\\features\\transactions\\queries\\getalltransactionsquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|c:\\users\\nau_b\\workspace\\financeflix\\financeflix\\features\\transactions\\handlers\\deletetransactionhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|solutionrelative:financeflix\\features\\transactions\\handlers\\deletetransactionhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|c:\\users\\nau_b\\workspace\\financeflix\\financeflix\\features\\transactions\\handlers\\updatetransactionhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|solutionrelative:financeflix\\features\\transactions\\handlers\\updatetransactionhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|c:\\users\\nau_b\\workspace\\financeflix\\financeflix\\features\\transactions\\handlers\\getalltransactionshandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|solutionrelative:financeflix\\features\\transactions\\handlers\\getalltransactionshandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|c:\\users\\nau_b\\workspace\\financeflix\\financeflix\\features\\accounts\\handlers\\createaccounthandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|solutionrelative:financeflix\\features\\accounts\\handlers\\createaccounthandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|c:\\users\\nau_b\\workspace\\financeflix\\financeflix\\features\\accounts\\handlers\\deleteaccounthandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|solutionrelative:financeflix\\features\\accounts\\handlers\\deleteaccounthandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|c:\\users\\nau_b\\workspace\\financeflix\\financeflix\\features\\accounts\\handlers\\getaccountshandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|solutionrelative:financeflix\\features\\accounts\\handlers\\getaccountshandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|c:\\users\\nau_b\\workspace\\financeflix\\financeflix\\features\\accounts\\handlers\\updateaccounthandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|solutionrelative:financeflix\\features\\accounts\\handlers\\updateaccounthandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|c:\\users\\nau_b\\workspace\\financeflix\\financeflix\\models\\account\\account.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|solutionrelative:financeflix\\models\\account\\account.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|c:\\users\\nau_b\\workspace\\financeflix\\financeflix\\repositories\\transaction\\transactionrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|solutionrelative:financeflix\\repositories\\transaction\\transactionrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|c:\\users\\nau_b\\workspace\\financeflix\\financeflix\\repositories\\account\\accountrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|solutionrelative:financeflix\\repositories\\account\\accountrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|c:\\users\\nau_b\\workspace\\financeflix\\financeflix\\repositories\\account\\iaccountrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|solutionrelative:financeflix\\repositories\\account\\iaccountrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|c:\\users\\nau_b\\workspace\\financeflix\\financeflix\\dbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -19,44 +99,16 @@
       "RelativeMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|solutionrelative:financeflix\\models\\transaction\\transactioncategory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|c:\\users\\nau_b\\workspace\\financeflix\\financeflix\\features\\transactions\\queries\\getalltransactionsquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|solutionrelative:financeflix\\features\\transactions\\queries\\getalltransactionsquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|c:\\users\\nau_b\\workspace\\financeflix\\financeflix\\features\\transactions\\handlers\\getalltransactionshandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|solutionrelative:financeflix\\features\\transactions\\handlers\\getalltransactionshandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|c:\\users\\nau_b\\workspace\\financeflix\\financeflix\\repositories\\transactionrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|solutionrelative:financeflix\\repositories\\transactionrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|c:\\users\\nau_b\\workspace\\financeflix\\financeflix\\repositories\\itransactionrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|solutionrelative:financeflix\\repositories\\itransactionrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|c:\\users\\nau_b\\workspace\\financeflix\\financeflix\\models\\common\\result.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|solutionrelative:financeflix\\models\\common\\result.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|c:\\users\\nau_b\\workspace\\financeflix\\financeflix\\features\\transactions\\handlers\\createtransactionhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|solutionrelative:financeflix\\features\\transactions\\handlers\\createtransactionhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|c:\\users\\nau_b\\workspace\\financeflix\\financeflix\\features\\transactions\\commands\\createtransactioncommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|solutionrelative:financeflix\\features\\transactions\\commands\\createtransactioncommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|c:\\users\\nau_b\\workspace\\financeflix\\financeflix\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|solutionrelative:financeflix\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|c:\\users\\nau_b\\workspace\\financeflix\\financeflix\\migrations\\dbcontextmodelsnapshot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|solutionrelative:financeflix\\migrations\\dbcontextmodelsnapshot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|c:\\users\\nau_b\\workspace\\financeflix\\financeflix\\models\\account\\account.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|solutionrelative:financeflix\\models\\account\\account.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|c:\\users\\nau_b\\workspace\\financeflix\\financeflix\\migrations\\20260323133034_adduseridforlaterus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F6291655-8D3E-42BC-9531-D21BA4419D24}|FinanceFlix\\FinanceFlix.csproj|solutionrelative:financeflix\\migrations\\20260323133034_adduseridforlaterus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -71,55 +123,91 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "FinanceFlix.csproj",
-              "DocumentMoniker": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\FinanceFlix.csproj",
-              "RelativeDocumentMoniker": "FinanceFlix\\FinanceFlix.csproj",
-              "ToolTip": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\FinanceFlix.csproj",
-              "RelativeToolTip": "FinanceFlix\\FinanceFlix.csproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2026-03-20T10:27:34.331Z",
+              "Title": "ValidationBehaviour.cs",
+              "DocumentMoniker": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\Pipeline\\ValidationBehaviour.cs",
+              "RelativeDocumentMoniker": "FinanceFlix\\Pipeline\\ValidationBehaviour.cs",
+              "ToolTip": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\Pipeline\\ValidationBehaviour.cs",
+              "RelativeToolTip": "FinanceFlix\\Pipeline\\ValidationBehaviour.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAABgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-23T14:05:44.985Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "TransactionCategory.cs",
-              "DocumentMoniker": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\Models\\Transaction\\TransactionCategory.cs",
-              "RelativeDocumentMoniker": "FinanceFlix\\Models\\Transaction\\TransactionCategory.cs",
-              "ToolTip": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\Models\\Transaction\\TransactionCategory.cs",
-              "RelativeToolTip": "FinanceFlix\\Models\\Transaction\\TransactionCategory.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 2,
+              "Title": "CreateTransactionValidator.cs",
+              "DocumentMoniker": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\Features\\Transactions\\Validator\\CreateTransactionValidator.cs",
+              "RelativeDocumentMoniker": "FinanceFlix\\Features\\Transactions\\Validator\\CreateTransactionValidator.cs",
+              "ToolTip": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\Features\\Transactions\\Validator\\CreateTransactionValidator.cs",
+              "RelativeToolTip": "FinanceFlix\\Features\\Transactions\\Validator\\CreateTransactionValidator.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAuAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-20T10:17:10.433Z"
+              "WhenOpened": "2026-03-23T14:17:02.603Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "TransactionRepository.cs",
-              "DocumentMoniker": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\Repositories\\TransactionRepository.cs",
-              "RelativeDocumentMoniker": "FinanceFlix\\Repositories\\TransactionRepository.cs",
-              "ToolTip": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\Repositories\\TransactionRepository.cs",
-              "RelativeToolTip": "FinanceFlix\\Repositories\\TransactionRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-20T10:10:15.439Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 4,
               "Title": "ITransactionRepository.cs",
-              "DocumentMoniker": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\Repositories\\ITransactionRepository.cs",
-              "RelativeDocumentMoniker": "FinanceFlix\\Repositories\\ITransactionRepository.cs",
-              "ToolTip": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\Repositories\\ITransactionRepository.cs",
-              "RelativeToolTip": "FinanceFlix\\Repositories\\ITransactionRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "DocumentMoniker": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\Repositories\\Transaction\\ITransactionRepository.cs",
+              "RelativeDocumentMoniker": "FinanceFlix\\Repositories\\Transaction\\ITransactionRepository.cs",
+              "ToolTip": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\Repositories\\Transaction\\ITransactionRepository.cs",
+              "RelativeToolTip": "FinanceFlix\\Repositories\\Transaction\\ITransactionRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-03-20T10:10:14.022Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 5,
+              "Title": "Transaction.cs",
+              "DocumentMoniker": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\Models\\Transaction\\Transaction.cs",
+              "RelativeDocumentMoniker": "FinanceFlix\\Models\\Transaction\\Transaction.cs",
+              "ToolTip": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\Models\\Transaction\\Transaction.cs",
+              "RelativeToolTip": "FinanceFlix\\Models\\Transaction\\Transaction.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-19T10:44:43.993Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "LoggingBehaviour.cs",
+              "DocumentMoniker": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\Pipeline\\LoggingBehaviour.cs",
+              "RelativeDocumentMoniker": "FinanceFlix\\Pipeline\\LoggingBehaviour.cs",
+              "ToolTip": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\Pipeline\\LoggingBehaviour.cs",
+              "RelativeToolTip": "FinanceFlix\\Pipeline\\LoggingBehaviour.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-23T13:08:01.432Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\Program.cs",
+              "RelativeDocumentMoniker": "FinanceFlix\\Program.cs",
+              "ToolTip": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\Program.cs",
+              "RelativeToolTip": "FinanceFlix\\Program.cs",
+              "ViewState": "AgIAABgAAAAAAAAAAAAAABcAAACKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-19T10:47:16.713Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "CreateTransactionCommand.cs",
+              "DocumentMoniker": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\Features\\Transactions\\Commands\\CreateTransactionCommand.cs",
+              "RelativeDocumentMoniker": "FinanceFlix\\Features\\Transactions\\Commands\\CreateTransactionCommand.cs",
+              "ToolTip": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\Features\\Transactions\\Commands\\CreateTransactionCommand.cs",
+              "RelativeToolTip": "FinanceFlix\\Features\\Transactions\\Commands\\CreateTransactionCommand.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-19T13:05:44.029Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
               "Title": "CreateTransactionHandler.cs",
               "DocumentMoniker": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\Features\\Transactions\\Handlers\\CreateTransactionHandler.cs",
               "RelativeDocumentMoniker": "FinanceFlix\\Features\\Transactions\\Handlers\\CreateTransactionHandler.cs",
@@ -131,31 +219,43 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "DeleteTransactionCommand.cs",
+              "DocumentMoniker": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\Features\\Transactions\\Commands\\DeleteTransactionCommand.cs",
+              "RelativeDocumentMoniker": "FinanceFlix\\Features\\Transactions\\Commands\\DeleteTransactionCommand.cs",
+              "ToolTip": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\Features\\Transactions\\Commands\\DeleteTransactionCommand.cs",
+              "RelativeToolTip": "FinanceFlix\\Features\\Transactions\\Commands\\DeleteTransactionCommand.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-23T13:09:13.795Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "20260323133034_addUserIdForLaterUs.cs",
+              "DocumentMoniker": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\Migrations\\20260323133034_addUserIdForLaterUs.cs",
+              "RelativeDocumentMoniker": "FinanceFlix\\Migrations\\20260323133034_addUserIdForLaterUs.cs",
+              "ToolTip": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\Migrations\\20260323133034_addUserIdForLaterUs.cs",
+              "RelativeToolTip": "FinanceFlix\\Migrations\\20260323133034_addUserIdForLaterUs.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-23T13:30:34.74Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "FinanceFlix.csproj",
+              "DocumentMoniker": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\FinanceFlix.csproj",
+              "RelativeDocumentMoniker": "FinanceFlix\\FinanceFlix.csproj",
+              "ToolTip": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\FinanceFlix.csproj",
+              "RelativeToolTip": "FinanceFlix\\FinanceFlix.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-03-20T10:27:34.331Z"
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 10,
-              "Title": "CreateTransactionCommand.cs",
-              "DocumentMoniker": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\Features\\Transactions\\Commands\\CreateTransactionCommand.cs",
-              "RelativeDocumentMoniker": "FinanceFlix\\Features\\Transactions\\Commands\\CreateTransactionCommand.cs",
-              "ToolTip": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\Features\\Transactions\\Commands\\CreateTransactionCommand.cs",
-              "RelativeToolTip": "FinanceFlix\\Features\\Transactions\\Commands\\CreateTransactionCommand.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAqAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-19T13:05:44.029Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "GetAllTransactionsHandler.cs",
-              "DocumentMoniker": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\Features\\Transactions\\Handlers\\GetAllTransactionsHandler.cs",
-              "RelativeDocumentMoniker": "FinanceFlix\\Features\\Transactions\\Handlers\\GetAllTransactionsHandler.cs",
-              "ToolTip": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\Features\\Transactions\\Handlers\\GetAllTransactionsHandler.cs",
-              "RelativeToolTip": "FinanceFlix\\Features\\Transactions\\Handlers\\GetAllTransactionsHandler.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAANAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-19T13:00:13.773Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
               "Title": "GetAllTransactionsQuery.cs",
               "DocumentMoniker": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\Features\\Transactions\\Queries\\GetAllTransactionsQuery.cs",
               "RelativeDocumentMoniker": "FinanceFlix\\Features\\Transactions\\Queries\\GetAllTransactionsQuery.cs",
@@ -168,18 +268,150 @@
             {
               "$type": "Document",
               "DocumentIndex": 11,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\Program.cs",
-              "RelativeDocumentMoniker": "FinanceFlix\\Program.cs",
-              "ToolTip": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\Program.cs",
-              "RelativeToolTip": "FinanceFlix\\Program.cs",
-              "ViewState": "AgIAABYAAAAAAAAAAEBVwDQAAAAyAAAAAAAAAA==",
+              "Title": "DeleteTransactionHandler.cs",
+              "DocumentMoniker": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\Features\\Transactions\\Handlers\\DeleteTransactionHandler.cs",
+              "RelativeDocumentMoniker": "FinanceFlix\\Features\\Transactions\\Handlers\\DeleteTransactionHandler.cs",
+              "ToolTip": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\Features\\Transactions\\Handlers\\DeleteTransactionHandler.cs",
+              "RelativeToolTip": "FinanceFlix\\Features\\Transactions\\Handlers\\DeleteTransactionHandler.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-19T10:47:16.713Z"
+              "WhenOpened": "2026-03-23T13:08:29.827Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 12,
+              "Title": "UpdateTransactionHandler.cs",
+              "DocumentMoniker": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\Features\\Transactions\\Handlers\\UpdateTransactionHandler.cs",
+              "RelativeDocumentMoniker": "FinanceFlix\\Features\\Transactions\\Handlers\\UpdateTransactionHandler.cs",
+              "ToolTip": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\Features\\Transactions\\Handlers\\UpdateTransactionHandler.cs",
+              "RelativeToolTip": "FinanceFlix\\Features\\Transactions\\Handlers\\UpdateTransactionHandler.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-23T13:09:00.748Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "CreateAccountHandler.cs",
+              "DocumentMoniker": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\Features\\Accounts\\Handlers\\CreateAccountHandler.cs",
+              "RelativeDocumentMoniker": "FinanceFlix\\Features\\Accounts\\Handlers\\CreateAccountHandler.cs",
+              "ToolTip": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\Features\\Accounts\\Handlers\\CreateAccountHandler.cs",
+              "RelativeToolTip": "FinanceFlix\\Features\\Accounts\\Handlers\\CreateAccountHandler.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-23T13:08:17.681Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "DeleteAccountHandler.cs",
+              "DocumentMoniker": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\Features\\Accounts\\Handlers\\DeleteAccountHandler.cs",
+              "RelativeDocumentMoniker": "FinanceFlix\\Features\\Accounts\\Handlers\\DeleteAccountHandler.cs",
+              "ToolTip": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\Features\\Accounts\\Handlers\\DeleteAccountHandler.cs",
+              "RelativeToolTip": "FinanceFlix\\Features\\Accounts\\Handlers\\DeleteAccountHandler.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-23T13:08:11.165Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "GetAccountsHandler.cs",
+              "DocumentMoniker": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\Features\\Accounts\\Handlers\\GetAccountsHandler.cs",
+              "RelativeDocumentMoniker": "FinanceFlix\\Features\\Accounts\\Handlers\\GetAccountsHandler.cs",
+              "ToolTip": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\Features\\Accounts\\Handlers\\GetAccountsHandler.cs",
+              "RelativeToolTip": "FinanceFlix\\Features\\Accounts\\Handlers\\GetAccountsHandler.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-23T13:08:09.688Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "UpdateAccountHandler.cs",
+              "DocumentMoniker": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\Features\\Accounts\\Handlers\\UpdateAccountHandler.cs",
+              "RelativeDocumentMoniker": "FinanceFlix\\Features\\Accounts\\Handlers\\UpdateAccountHandler.cs",
+              "ToolTip": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\Features\\Accounts\\Handlers\\UpdateAccountHandler.cs",
+              "RelativeToolTip": "FinanceFlix\\Features\\Accounts\\Handlers\\UpdateAccountHandler.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-23T13:08:13.779Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "GetAllTransactionsHandler.cs",
+              "DocumentMoniker": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\Features\\Transactions\\Handlers\\GetAllTransactionsHandler.cs",
+              "RelativeDocumentMoniker": "FinanceFlix\\Features\\Transactions\\Handlers\\GetAllTransactionsHandler.cs",
+              "ToolTip": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\Features\\Transactions\\Handlers\\GetAllTransactionsHandler.cs",
+              "RelativeToolTip": "FinanceFlix\\Features\\Transactions\\Handlers\\GetAllTransactionsHandler.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-19T13:00:13.773Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "AccountRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\Repositories\\Account\\AccountRepository.cs",
+              "RelativeDocumentMoniker": "FinanceFlix\\Repositories\\Account\\AccountRepository.cs",
+              "ToolTip": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\Repositories\\Account\\AccountRepository.cs",
+              "RelativeToolTip": "FinanceFlix\\Repositories\\Account\\AccountRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAABpAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-23T12:03:50.36Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "IAccountRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\Repositories\\Account\\IAccountRepository.cs",
+              "RelativeDocumentMoniker": "FinanceFlix\\Repositories\\Account\\IAccountRepository.cs",
+              "ToolTip": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\Repositories\\Account\\IAccountRepository.cs",
+              "RelativeToolTip": "FinanceFlix\\Repositories\\Account\\IAccountRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-23T12:14:21.803Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "TransactionCategory.cs",
+              "DocumentMoniker": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\Models\\Transaction\\TransactionCategory.cs",
+              "RelativeDocumentMoniker": "FinanceFlix\\Models\\Transaction\\TransactionCategory.cs",
+              "ToolTip": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\Models\\Transaction\\TransactionCategory.cs",
+              "RelativeToolTip": "FinanceFlix\\Models\\Transaction\\TransactionCategory.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-20T10:17:10.433Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "TransactionRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\Repositories\\Transaction\\TransactionRepository.cs",
+              "RelativeDocumentMoniker": "FinanceFlix\\Repositories\\Transaction\\TransactionRepository.cs",
+              "ToolTip": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\Repositories\\Transaction\\TransactionRepository.cs",
+              "RelativeToolTip": "FinanceFlix\\Repositories\\Transaction\\TransactionRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACQAAABEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-20T10:10:15.439Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "Account.cs",
+              "DocumentMoniker": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\Models\\Account\\Account.cs",
+              "RelativeDocumentMoniker": "FinanceFlix\\Models\\Account\\Account.cs",
+              "ToolTip": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\Models\\Account\\Account.cs",
+              "RelativeToolTip": "FinanceFlix\\Models\\Account\\Account.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-19T10:44:43.184Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
               "Title": "DBContext.cs",
               "DocumentMoniker": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\DBContext.cs",
               "RelativeDocumentMoniker": "FinanceFlix\\DBContext.cs",
@@ -191,19 +423,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Transaction.cs",
-              "DocumentMoniker": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\Models\\Transaction\\Transaction.cs",
-              "RelativeDocumentMoniker": "FinanceFlix\\Models\\Transaction\\Transaction.cs",
-              "ToolTip": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\Models\\Transaction\\Transaction.cs",
-              "RelativeToolTip": "FinanceFlix\\Models\\Transaction\\Transaction.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-19T10:44:43.993Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 24,
               "Title": "Result.cs",
               "DocumentMoniker": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\Models\\Common\\Result.cs",
               "RelativeDocumentMoniker": "FinanceFlix\\Models\\Common\\Result.cs",
@@ -215,19 +435,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "Account.cs",
-              "DocumentMoniker": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\Models\\Account\\Account.cs",
-              "RelativeDocumentMoniker": "FinanceFlix\\Models\\Account\\Account.cs",
-              "ToolTip": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\Models\\Account\\Account.cs",
-              "RelativeToolTip": "FinanceFlix\\Models\\Account\\Account.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-19T10:44:43.184Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 25,
               "Title": "DBContextModelSnapshot.cs",
               "DocumentMoniker": "C:\\Users\\Nau_B\\workspace\\FinanceFlix\\FinanceFlix\\Migrations\\DBContextModelSnapshot.cs",
               "RelativeDocumentMoniker": "FinanceFlix\\Migrations\\DBContextModelSnapshot.cs",

@@ -30,6 +30,10 @@ namespace FinanceFlix.Migrations
                     b.Property<decimal>("Balance")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.HasKey("AccountId");
 
                     b.ToTable("Accounts");

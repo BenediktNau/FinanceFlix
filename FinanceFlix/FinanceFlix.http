@@ -1,11 +1,10 @@
-@FinanceFlix_HostAddress = http://localhost:5096
+@FinanceFlix_HostAddress = http://localhost:3000
 
-GET {{FinanceFlix_HostAddress}}/todos/
-Accept: application/json
+POST {{FinanceFlix_HostAddress}}/account
+
+###
+
+DELETE {{FinanceFlix_HostAddress}}/account/1
 
 ###
 
-GET {{FinanceFlix_HostAddress}}/todos/1
-Accept: application/json
-
-###

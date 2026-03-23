@@ -1,0 +1,266 @@
+Plan: Mail Inbox Integration with Local AI Categorization
+
+ Context
+
+ FinanceFlix needs to:
+ 1. Associate one or more IMAP mail inboxes (with a specific folder) per Account
+ 2. Listen for new incoming emails in real-time using IMAP IDLE
+ 3. When a new email arrives, use a local AI (Ollama) — no internet required — to:
+   - Extract the transaction amount from the bill/receipt
+   - Determine the TransactionCategory (Einkommen, Wohnen, Lebensmittel, etc.)
+ 4. Automatically create a Transaction record linked to the Account
+
+ ---
+ Prerequisites (one-time setup)
+
+ Install Ollama locally: https://ollama.com
+ Then pull the recommended lightweight model:
+ ollama pull phi3:mini
+ phi3:mini (Microsoft Phi-3, ~2.2 GB RAM) is the best choice for structured JSON extraction — fast, efficient, good at following instructions and handles German text well. No internet needed after the initial
+  pull.
+
+ Alternatives if RAM is limited: llama3.2:1b (~1.3 GB) or gemma2:2b (~1.6 GB).
+
+ ---
+ Architecture Overview
+
+ New email arrives (IMAP IDLE)
+        ↓
+ MailListenerService (BackgroundService)
+        ↓
+ OllamaCategorizationService → POST http://localhost:11434
+        ↓ returns { category, amount }
+ CreateTransactionCommand → ITransactionRepository → DB
+
+ ---
+ Step 1 — Add NuGet Packages
+
+ dotnet add package MailKit
+ dotnet add package OllamaSharp
+
+ OllamaSharp is a thin .NET client for the Ollama local API.
+
+ ---
+ Step 2 — New Model: MailInbox
+
+ File: FinanceFlix/Models/Mail/MailInbox.cs
+
+ namespace FinanceFlix.Models.Mail;
+
+ public class MailInbox
+ {
+     public int Id { get; set; }
+     public int AccountId { get; set; }
+     public string DisplayName { get; set; }
+     public string ImapHost { get; set; }
+     public int ImapPort { get; set; }        // typically 993 (SSL)
+     public bool UseSsl { get; set; }
+     public string Username { get; set; }
+     public string Password { get; set; }     // ⚠ plain text for now
+     public string FolderName { get; set; }   // e.g. "Bills", "INBOX"
+ }
+
+ ---
+ Step 3 — Register MailInbox in DBContext
+
+ File: FinanceFlix/DBContext.cs
+
+ public DbSet<MailInbox> MailInboxes { get; set; }
+
+ Then run:
+ dotnet ef migrations add AddMailInbox
+ dotnet ef database update
+
+ ---
+ Step 4 — Repository
+
+ File: FinanceFlix/Repositories/Mail/IMailInboxRepository.cs
+ public interface IMailInboxRepository
+ {
+     Task<List<MailInbox>> GetAllAsync(CancellationToken ct = default);
+     Task<List<MailInbox>> GetByAccountIdAsync(int accountId, CancellationToken ct = default);
+     Task<MailInbox> AddAsync(MailInbox inbox, CancellationToken ct = default);
+     Task<bool> DeleteAsync(int id, CancellationToken ct = default);
+ }
+
+ File: FinanceFlix/Repositories/Mail/MailInboxRepository.cs
+ - Injects DBContext
+ - Standard LINQ + ToListAsync / SaveChangesAsync implementations
+
+ ---
+ Step 5 — Local AI Categorization Service (Ollama)
+
+ File: FinanceFlix/Services/AI/ICategorizationService.cs
+ public interface ICategorizationService
+ {
+     Task<(TransactionCategory Category, decimal Amount)> CategorizeAsync(string subject, string body, CancellationToken ct = default);
+ }
+
+ File: FinanceFlix/Services/AI/OllamaCategorizationService.cs
+
+ Uses OllamaSharp to call the local Ollama API:
+
+ public class OllamaCategorizationService : ICategorizationService
+ {
+     private readonly OllamaApiClient _ollama;
+
+     public OllamaCategorizationService(IConfiguration config)
+     {
+         var host = config["Ollama:Host"] ?? "http://localhost:11434";
+         var model = config["Ollama:Model"] ?? "llama3.2";
+         _ollama = new OllamaApiClient(host) { SelectedModel = model };
+     }
+
+     public async Task<(TransactionCategory Category, decimal Amount)> CategorizeAsync(string subject, string body, CancellationToken ct = default)
+     {
+         var prompt = $"""
+             You are a financial transaction categorizer for a German finance app.
+             Given this bill/receipt email, extract:
+             1. The category (must be exactly one of: Einkommen, Wohnen, Lebensmittel, Transport, Unterhaltung, Gesundheit, Shopping, Sparen, Sonstiges)
+             2. The total amount as a decimal number (e.g. 29.99)
+
+             Email Subject: {subject}
+             Email Body: {body}
+
+             Respond ONLY in JSON: {{"category": "...", "amount": 0.00}}
+             """;
+
+         var response = await _ollama.GetCompletion(prompt, ct);
+         // Parse JSON response → map to TransactionCategory enum and decimal
+         // Use System.Text.Json to deserialize
+         var result = JsonSerializer.Deserialize<CategorizationResult>(response.Response);
+         var category = Enum.Parse<TransactionCategory>(result.Category);
+         return (category, result.Amount);
+     }
+ }
+
+ File: FinanceFlix/appsettings.json — add:
+ "Ollama": {
+   "Host": "http://localhost:11434",
+   "Model": "phi3:mini"
+ }
+
+ ---
+ Step 6 — IMAP IDLE Background Listener
+
+ File: FinanceFlix/Services/Mail/MailListenerService.cs
+
+ BackgroundService that:
+ 1. On startup: loads all MailInbox records from DB (via IServiceScopeFactory)
+ 2. Spawns one Task per inbox, each running an IMAP IDLE loop on inbox.FolderName
+ 3. On new message: fetch it → call ICategorizationService → dispatch CreateTransactionCommand
+ 4. Re-issues IDLE every 25 min (servers drop connections at ~30 min)
+ 5. Retries with 30s delay on connection failure
+
+ private async Task OnNewMessageAsync(MailInbox inbox, IMailFolder folder, int messageIndex, CancellationToken ct)
+ {
+     var message = await folder.GetMessageAsync(messageIndex, ct);
+
+     using var scope = _scopeFactory.CreateScope();
+     var categorizer = scope.ServiceProvider.GetRequiredService<ICategorizationService>();
+     var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
+
+     var (category, amount) = await categorizer.CategorizeAsync(message.Subject, message.TextBody ?? "", ct);
+
+     await mediator.Send(new CreateTransactionCommand(amount, message.Subject, category, inbox.AccountId), ct);
+ }
+
+ ---
+ Step 7 — Update CreateTransactionCommand
+
+ File: FinanceFlix/Features/Transactions/Commands/CreateTransactionCommand.cs
+
+ Currently: record CreateTransactionCommand(decimal amount, string description, TransactionCategory category)
+
+ Needs AccountId added:
+ record CreateTransactionCommand(decimal Amount, string Description, TransactionCategory Category, int AccountId) : IRequest<Transaction>;
+
+ ---
+ Step 8 — CQRS Features for Managing Inboxes
+
+ Folder: FinanceFlix/Features/Mail/
+
+ Commands
+
+ - AddMailInboxCommand(int AccountId, string DisplayName, string ImapHost, int ImapPort, bool UseSsl, string Username, string Password, string FolderName) → IRequest<Result<MailInbox>>
+ - RemoveMailInboxCommand(int Id) → IRequest<Result<bool>>
+
+ Queries
+
+ - GetMailInboxesQuery(int AccountId) → IRequest<Result<List<MailInbox>>>
+
+ Handlers
+
+ - AddMailInboxHandler → saves via IMailInboxRepository
+ - RemoveMailInboxHandler → deletes via IMailInboxRepository
+ - GetMailInboxesHandler → returns list by accountId
+
+ ---
+ Step 9 — Register in Program.cs
+
+ .AddScoped<IMailInboxRepository, MailInboxRepository>()
+ .AddScoped<ICategorizationService, OllamaCategorizationService>()
+ .AddHostedService<MailListenerService>()
+
+ API endpoints:
+ POST   /mail/inboxes              → AddMailInboxCommand
+ DELETE /mail/inboxes/{id}         → RemoveMailInboxCommand
+ GET    /mail/inboxes/{accountId}  → GetMailInboxesQuery
+
+ ---
+ Critical Files to Modify
+
+ ┌────────────────────────────────────────────────────────────────────────┬───────────────────────────────┐
+ │                                  File                                  │            Change             │
+ ├────────────────────────────────────────────────────────────────────────┼───────────────────────────────┤
+ │ FinanceFlix/DBContext.cs                                               │ Add DbSet<MailInbox>          │
+ ├────────────────────────────────────────────────────────────────────────┼───────────────────────────────┤
+ │ FinanceFlix/Program.cs                                                 │ Register services + endpoints │
+ ├────────────────────────────────────────────────────────────────────────┼───────────────────────────────┤
+ │ FinanceFlix/FinanceFlix.csproj                                         │ Add MailKit + OllamaSharp     │
+ ├────────────────────────────────────────────────────────────────────────┼───────────────────────────────┤
+ │ FinanceFlix/appsettings.json                                           │ Add Ollama config section     │
+ ├────────────────────────────────────────────────────────────────────────┼───────────────────────────────┤
+ │ FinanceFlix/Features/Transactions/Commands/CreateTransactionCommand.cs │ Add AccountId parameter       │
+ └────────────────────────────────────────────────────────────────────────┴───────────────────────────────┘
+
+ New Files to Create
+
+ ┌──────────────────────────────────────────────────┬──────────────────────────────┐
+ │                       File                       │           Purpose            │
+ ├──────────────────────────────────────────────────┼──────────────────────────────┤
+ │ Models/Mail/MailInbox.cs                         │ Domain model                 │
+ ├──────────────────────────────────────────────────┼──────────────────────────────┤
+ │ Repositories/Mail/IMailInboxRepository.cs        │ Repository interface         │
+ ├──────────────────────────────────────────────────┼──────────────────────────────┤
+ │ Repositories/Mail/MailInboxRepository.cs         │ Repository implementation    │
+ ├──────────────────────────────────────────────────┼──────────────────────────────┤
+ │ Services/AI/ICategorizationService.cs            │ AI service interface         │
+ ├──────────────────────────────────────────────────┼──────────────────────────────┤
+ │ Services/AI/OllamaCategorizationService.cs       │ Ollama implementation        │
+ ├──────────────────────────────────────────────────┼──────────────────────────────┤
+ │ Services/Mail/MailListenerService.cs             │ IMAP IDLE background service │
+ ├──────────────────────────────────────────────────┼──────────────────────────────┤
+ │ Features/Mail/Commands/AddMailInboxCommand.cs    │                              │
+ ├──────────────────────────────────────────────────┼──────────────────────────────┤
+ │ Features/Mail/Commands/RemoveMailInboxCommand.cs │                              │
+ ├──────────────────────────────────────────────────┼──────────────────────────────┤
+ │ Features/Mail/Queries/GetMailInboxesQuery.cs     │                              │
+ ├──────────────────────────────────────────────────┼──────────────────────────────┤
+ │ Features/Mail/Handlers/AddMailInboxHandler.cs    │                              │
+ ├──────────────────────────────────────────────────┼──────────────────────────────┤
+ │ Features/Mail/Handlers/RemoveMailInboxHandler.cs │                              │
+ ├──────────────────────────────────────────────────┼──────────────────────────────┤
+ │ Features/Mail/Handlers/GetMailInboxesHandler.cs  │                              │
+ └──────────────────────────────────────────────────┴──────────────────────────────┘
+
+ ---
+ Verification
+
+ 1. dotnet build — no errors
+ 2. dotnet ef migrations add AddMailInbox && dotnet ef database update
+ 3. Start Ollama: ollama serve (if not running as a service)
+ 4. POST /mail/inboxes with IMAP credentials + folder name → saved in DB
+ 5. App starts → MailListenerService connects and enters IDLE (check logs)
+ 6. Move a bill/receipt email into the monitored folder → logs show new message
+ 7. Check DB → new Transaction created with correct category and amount
