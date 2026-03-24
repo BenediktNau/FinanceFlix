@@ -1,4 +1,5 @@
 using FinanceFlix.Models.Account;
+using FinanceFlix.Models.MailInbox;
 using FinanceFlix.Models.Transaction;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,6 +9,7 @@ public class DBContext : DbContext
 {
     public DbSet<Transaction> Transactions { get; set; }
     public DbSet<Account> Accounts { get; set; }
+    public DbSet<MailInbox> MailInboxes { get; set; }
     
     public string DbPath { get; }
 

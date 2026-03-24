@@ -25,7 +25,7 @@ namespace FinanceFlix.Pipeline
                 if (failures.Count > 0)
                     throw new FluentValidation.ValidationException(failures);
             }
-            return await next().ConfigureAwait(false);
+            return await next(message, cancellationToken).ConfigureAwait(false);
 
         }
     }
