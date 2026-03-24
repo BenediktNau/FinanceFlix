@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:app_financeflix/models/app_transaction.dart';
 import 'package:app_financeflix/services/finance_service.dart';
+import 'package:app_financeflix/services/settings_service.dart';
 import 'add_transaction_screen.dart';
+import 'mail_inbox_screen.dart';
 
 class AccountDetailScreen extends StatelessWidget {
   final FinanceService service;
+  final SettingsService settingsService;
   final int accountId;
 
   const AccountDetailScreen({
     super.key,
     required this.service,
+    required this.settingsService,
     required this.accountId,
   });
 
@@ -27,7 +31,36 @@ class AccountDetailScreen extends StatelessWidget {
         }
         final transactions = service.transactionsFor(accountId);
         return Scaffold(
-          appBar: AppBar(title: Text(account.name)),
+          appBar: AppBar(
+            title: Text(account.name),
+            actions: [
+              ListenableBuilder(
+                listenable: settingsService,
+                builder: (context, _) {
+                  if (!settingsService.mailInboxEnabled) {
+                    return const SizedBox.shrink();
+                  }
+                  return IconButton(
+                    icon: const Icon(Icons.mail_outlined),
+                    tooltip: 'Mail Inboxes',
+                    onPressed: () {
+                      if (service.apiClient == null) return;
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => MailInboxScreen(
+                            apiClient: service.apiClient!,
+                            accountId: accountId,
+                            accountName: account.name,
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
+            ],
+          ),
           body: Column(
             children: [
               _buildBalanceCard(context, account.balance),

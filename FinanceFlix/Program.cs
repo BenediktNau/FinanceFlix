@@ -88,6 +88,13 @@ if (app.Environment.IsDevelopment())
 app.UseAuthentication();
 app.UseAuthorization();
 
+// Public features endpoint — no auth required
+var featuresConfig = builder.Configuration.GetSection("Features");
+app.MapGet("/features", () => new ServerFeatures(
+    featuresConfig.GetValue<bool>("AiEnabled"),
+    featuresConfig.GetValue<bool>("MailInboxEnabled")
+));
+
 // Auth endpoints (only in BuiltIn mode)
 if (authSettings.Mode != "Sso")
 {
@@ -126,7 +133,7 @@ mailInboxApi.MapPost("/", async (CreateMailInboxRequest req, IMediator mediator)
 mailInboxApi.MapDelete("/{id}", async (int id, IMediator mediator) =>
     await mediator.Send(new DeleteMailInboxCommand(id)));
 
-app.Run("http://localhost:3000");
+app.Run("http://0.0.0.0:3000");
 
 // Request body records for POST/PUT endpoints
 record RegisterRequest(string Email, string Password);
@@ -136,6 +143,7 @@ record UpdateAccountRequest(string AccountName, decimal Balance);
 record CreateTransactionRequest(int AccountId, decimal Amount, TransactionCategory Category, DateTime Date);
 record UpdateTransactionRequest(decimal Amount, TransactionCategory Category, DateTime Date);
 record CreateMailInboxRequest(int AccountId, string DisplayName, string ImapHost, int ImapPort, bool UseSsl, string Username, string Password, string FolderName);
+record ServerFeatures(bool AiEnabled, bool MailInboxEnabled);
 
 [JsonSerializable(typeof(Account))]
 [JsonSerializable(typeof(List<Account>))]
@@ -158,6 +166,7 @@ record CreateMailInboxRequest(int AccountId, string DisplayName, string ImapHost
 [JsonSerializable(typeof(UpdateAccountRequest))]
 [JsonSerializable(typeof(CreateTransactionRequest))]
 [JsonSerializable(typeof(UpdateTransactionRequest))]
+[JsonSerializable(typeof(ServerFeatures))]
 internal partial class AppJsonSerializerContext : JsonSerializerContext
 {
 }

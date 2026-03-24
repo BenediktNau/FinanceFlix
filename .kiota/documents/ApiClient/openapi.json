@@ -10,25 +10,6 @@
     }
   ],
   "paths": {
-    "/features": {
-      "get": {
-        "tags": [
-          "FinanceFlix"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ServerFeatures"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/auth/register": {
       "post": {
         "tags": [
@@ -620,17 +601,6 @@
           },
           "folderName": {
             "type": "string"
-          }
-        }
-      },
-      "ServerFeatures": {
-        "type": "object",
-        "properties": {
-          "aiEnabled": {
-            "type": "boolean"
-          },
-          "mailInboxEnabled": {
-            "type": "boolean"
           }
         }
       },

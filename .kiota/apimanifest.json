@@ -1,0 +1,67 @@
+{
+  "applicationName": "application",
+  "apiDependencies": {
+    "ApiClient": {
+      "apiDescriptionUrl": "./openapi.json",
+      "apiDeploymentBaseUrl": "http://localhost:3000/",
+      "requests": [
+        {
+          "method": "POST",
+          "uriTemplate": "auth/register"
+        },
+        {
+          "method": "POST",
+          "uriTemplate": "auth/login"
+        },
+        {
+          "method": "PUT",
+          "uriTemplate": "account/{id}"
+        },
+        {
+          "method": "DELETE",
+          "uriTemplate": "account/{id}"
+        },
+        {
+          "method": "GET",
+          "uriTemplate": "account"
+        },
+        {
+          "method": "POST",
+          "uriTemplate": "account"
+        },
+        {
+          "method": "PUT",
+          "uriTemplate": "transaction/{id}"
+        },
+        {
+          "method": "DELETE",
+          "uriTemplate": "transaction/{id}"
+        },
+        {
+          "method": "GET",
+          "uriTemplate": "transaction"
+        },
+        {
+          "method": "POST",
+          "uriTemplate": "transaction"
+        },
+        {
+          "method": "GET",
+          "uriTemplate": "mailinbox/{account-id}"
+        },
+        {
+          "method": "DELETE",
+          "uriTemplate": "mailinbox/{account-id}"
+        },
+        {
+          "method": "POST",
+          "uriTemplate": "mailinbox"
+        }
+      ],
+      "extensions": {
+        "x-ms-kiota-hash": "8D9F37154F70F401D1FDEEF6B350222F0BA7FBFDB38CB9FA8815D8237065E276",
+        "x-ms-kiota-version": "1.30.0"
+      }
+    }
+  }
+}

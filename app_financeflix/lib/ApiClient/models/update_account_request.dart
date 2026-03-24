@@ -1,0 +1,37 @@
+// ignore_for_file: type=lint
+import 'package:microsoft_kiota_abstractions/microsoft_kiota_abstractions.dart';
+
+/// auto generated
+class UpdateAccountRequest implements AdditionalDataHolder, Parsable {
+    ///  The accountName property
+    String? accountName;
+    ///  Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+    @override
+    Map<String, Object?> additionalData;
+    ///  The balance property
+    UntypedNode? balance;
+    /// Instantiates a new [UpdateAccountRequest] and sets the default values.
+    UpdateAccountRequest() :  
+        additionalData = {};
+    /// Creates a new instance of the appropriate class based on discriminator value
+    ///  [parseNode] The parse node to use to read the discriminator value and create the object
+    static UpdateAccountRequest createFromDiscriminatorValue(ParseNode parseNode) {
+        return UpdateAccountRequest();
+    }
+    /// The deserialization information for the current model
+    @override
+    Map<String, void Function(ParseNode)> getFieldDeserializers() {
+        var deserializerMap = <String, void Function(ParseNode)>{};
+        deserializerMap['accountName'] = (node) => accountName = node.getStringValue();
+        deserializerMap['balance'] = (node) => balance = node.getObjectValue<UntypedNode>(UntypedNode.createFromDiscriminatorValue);
+        return deserializerMap;
+    }
+    /// Serializes information the current object
+    ///  [writer] Serialization writer to use to serialize this model
+    @override
+    void serialize(SerializationWriter writer) {
+        writer.writeStringValue('accountName', accountName);
+        writer.writeObjectValue<UntypedNode>('balance', balance);
+        writer.writeAdditionalData(additionalData);
+    }
+}

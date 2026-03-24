@@ -62,7 +62,7 @@ class FinanceService extends ChangeNotifier {
   }
 
   /// Fetches transactions from the API once the backend is ready.
-  /// Uses the Kiota-generated ApiClient.
+  /// Uses the Kiota-generated> ApiClient.
   Future<void> fetchTransactions() async {
     if (apiClient == null) return;
     final result = await apiClient!.transaction.getAsync();

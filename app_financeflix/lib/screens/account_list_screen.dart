@@ -1,13 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:app_financeflix/models/account.dart';
+import 'package:app_financeflix/services/auth_service.dart';
 import 'package:app_financeflix/services/finance_service.dart';
+import 'package:app_financeflix/services/settings_service.dart';
 import 'create_account_screen.dart';
 import 'account_detail_screen.dart';
+import 'settings_screen.dart';
 
 class AccountListScreen extends StatelessWidget {
   final FinanceService service;
+  final AuthService authService;
+  final SettingsService settingsService;
 
-  const AccountListScreen({super.key, required this.service});
+  const AccountListScreen({
+    super.key,
+    required this.service,
+    required this.authService,
+    required this.settingsService,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -15,6 +25,22 @@ class AccountListScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('FinanceFlix'),
         centerTitle: true,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.settings),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => SettingsScreen(
+                    settingsService: settingsService,
+                    authService: authService,
+                  ),
+                ),
+              );
+            },
+          ),
+        ],
       ),
       body: ListenableBuilder(
         listenable: service,
@@ -105,6 +131,7 @@ class AccountListScreen extends StatelessWidget {
             MaterialPageRoute(
               builder: (_) => AccountDetailScreen(
                 service: service,
+                settingsService: settingsService,
                 accountId: account.id,
               ),
             ),

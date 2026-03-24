@@ -21,6 +21,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
   final _amountController = TextEditingController();
   TransactionCategory _selectedCategory = TransactionCategory.sonstiges;
   DateTime _selectedDate = DateTime.now();
+  bool _isIncome = false;
 
   @override
   void dispose() {
@@ -42,9 +43,11 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
 
   void _submit() {
     if (!_formKey.currentState!.validate()) return;
+    final amount = double.parse(_amountController.text);
+    final signedAmount = _isIncome ? amount : -amount;
     widget.service.addTransaction(
       widget.accountId,
-      double.parse(_amountController.text),
+      signedAmount,
       _selectedCategory,
       _selectedDate,
     );
@@ -68,13 +71,34 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
                 color: Theme.of(context).colorScheme.primary,
               ),
               const SizedBox(height: 32),
+              SegmentedButton<bool>(
+                segments: const [
+                  ButtonSegment(
+                    value: false,
+                    label: Text('Expense'),
+                    icon: Icon(Icons.trending_down),
+                  ),
+                  ButtonSegment(
+                    value: true,
+                    label: Text('Income'),
+                    icon: Icon(Icons.trending_up),
+                  ),
+                ],
+                selected: {_isIncome},
+                onSelectionChanged: (set) =>
+                    setState(() => _isIncome = set.first),
+              ),
+              const SizedBox(height: 16),
               TextFormField(
                 controller: _amountController,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   labelText: 'Amount',
                   hintText: '0.00',
-                  prefixIcon: Icon(Icons.euro),
-                  border: OutlineInputBorder(),
+                  prefixIcon: Icon(
+                    Icons.euro,
+                    color: _isIncome ? Colors.green : Colors.red,
+                  ),
+                  border: const OutlineInputBorder(),
                 ),
                 keyboardType:
                     const TextInputType.numberWithOptions(decimal: true),

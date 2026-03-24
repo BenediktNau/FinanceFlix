@@ -1,43 +1,43 @@
 // ignore_for_file: type=lint
 import 'package:microsoft_kiota_abstractions/microsoft_kiota_abstractions.dart';
-import '../models/create_transaction_request.dart';
-import '../models/result_of_list_of_transaction.dart';
-import '../models/result_of_transaction.dart';
-import './item/transaction_item_request_builder.dart';
+import '../models/create_account_request.dart';
+import '../models/result_of_list_of_account.dart';
+import '../models/result_ofboolean.dart';
+import './item/account_item_request_builder.dart';
 
 /// auto generated
-/// Builds and executes requests for operations under \transaction
-class TransactionRequestBuilder extends BaseRequestBuilder<TransactionRequestBuilder> {
-    /// Gets an item from the ApiSDK.transaction.item collection
+/// Builds and executes requests for operations under \account
+class AccountRequestBuilder extends BaseRequestBuilder<AccountRequestBuilder> {
+    /// Gets an item from the ApiSDK.account.item collection
     ///  [id] Unique identifier of the item
-    TransactionItemRequestBuilder byId(String id) {
+    AccountItemRequestBuilder byId(String id) {
         var urlTplParams = Map.of(pathParameters);
         urlTplParams.putIfAbsent('id', () => id);
-        return TransactionItemRequestBuilder(urlTplParams, requestAdapter);
+        return AccountItemRequestBuilder(urlTplParams, requestAdapter);
     }
     /// Clones the requestbuilder.
     @override
-    TransactionRequestBuilder clone() {
-        return TransactionRequestBuilder(pathParameters, requestAdapter);
+    AccountRequestBuilder clone() {
+        return AccountRequestBuilder(pathParameters, requestAdapter);
     }
-    /// Instantiates a new [TransactionRequestBuilder] and sets the default values.
+    /// Instantiates a new [AccountRequestBuilder] and sets the default values.
     ///  [pathParameters] Path parameters for the request
     ///  [requestAdapter] The request adapter to use to execute the requests.
-    TransactionRequestBuilder(Map<String, dynamic> pathParameters, RequestAdapter requestAdapter) : super(requestAdapter, "{+baseurl}/transaction", pathParameters) ;
-    /// Instantiates a new [TransactionRequestBuilder] and sets the default values.
+    AccountRequestBuilder(Map<String, dynamic> pathParameters, RequestAdapter requestAdapter) : super(requestAdapter, "{+baseurl}/account", pathParameters) ;
+    /// Instantiates a new [AccountRequestBuilder] and sets the default values.
     ///  [rawUrl] The raw URL to use for the request builder.
     ///  [requestAdapter] The request adapter to use to execute the requests.
-    TransactionRequestBuilder.withUrl(String rawUrl, RequestAdapter requestAdapter) : super(requestAdapter, "{+baseurl}/transaction", {RequestInformation.rawUrlKey : rawUrl}) ;
+    AccountRequestBuilder.withUrl(String rawUrl, RequestAdapter requestAdapter) : super(requestAdapter, "{+baseurl}/account", {RequestInformation.rawUrlKey : rawUrl}) ;
     ///  [requestConfiguration] Configuration for the request such as headers, query parameters, and middleware options.
-    Future<ResultOfListOfTransaction?> getAsync([void Function(RequestConfiguration<DefaultQueryParameters>)? requestConfiguration]) async {
+    Future<ResultOfListOfAccount?> getAsync([void Function(RequestConfiguration<DefaultQueryParameters>)? requestConfiguration]) async {
         var requestInfo = toGetRequestInformation(requestConfiguration);
-        return await requestAdapter.send<ResultOfListOfTransaction>(requestInfo, ResultOfListOfTransaction.createFromDiscriminatorValue, {});
+        return await requestAdapter.send<ResultOfListOfAccount>(requestInfo, ResultOfListOfAccount.createFromDiscriminatorValue, {});
     }
     ///  [body] The request body
     ///  [requestConfiguration] Configuration for the request such as headers, query parameters, and middleware options.
-    Future<ResultOfTransaction?> postAsync(CreateTransactionRequest body, [void Function(RequestConfiguration<DefaultQueryParameters>)? requestConfiguration]) async {
+    Future<ResultOfboolean?> postAsync(CreateAccountRequest body, [void Function(RequestConfiguration<DefaultQueryParameters>)? requestConfiguration]) async {
         var requestInfo = toPostRequestInformation(body, requestConfiguration);
-        return await requestAdapter.send<ResultOfTransaction>(requestInfo, ResultOfTransaction.createFromDiscriminatorValue, {});
+        return await requestAdapter.send<ResultOfboolean>(requestInfo, ResultOfboolean.createFromDiscriminatorValue, {});
     }
     ///  [requestConfiguration] Configuration for the request such as headers, query parameters, and middleware options.
     RequestInformation toGetRequestInformation([void Function(RequestConfiguration<DefaultQueryParameters>)? requestConfiguration]) {
@@ -48,7 +48,7 @@ class TransactionRequestBuilder extends BaseRequestBuilder<TransactionRequestBui
     }
     ///  [body] The request body
     ///  [requestConfiguration] Configuration for the request such as headers, query parameters, and middleware options.
-    RequestInformation toPostRequestInformation(CreateTransactionRequest body, [void Function(RequestConfiguration<DefaultQueryParameters>)? requestConfiguration]) {
+    RequestInformation toPostRequestInformation(CreateAccountRequest body, [void Function(RequestConfiguration<DefaultQueryParameters>)? requestConfiguration]) {
         var requestInfo = RequestInformation(httpMethod : HttpMethod.post, urlTemplate : urlTemplate, pathParameters :  pathParameters);
         requestInfo.configure<DefaultQueryParameters>(requestConfiguration, () => DefaultQueryParameters());
         requestInfo.headers.put('Accept', 'application/json');

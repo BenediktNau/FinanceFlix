@@ -1,0 +1,36 @@
+{
+  "version": "1.0.0",
+  "clients": {
+    "ApiClient": {
+      "language": "Dart",
+      "typeAccessModifier": "Public",
+      "structuredMimeTypes": [
+        "application/json",
+        "text/plain;q=0.9",
+        "application/x-www-form-urlencoded;q=0.2",
+        "multipart/form-data;q=0.1"
+      ],
+      "clientNamespaceName": "ApiSDK",
+      "usesBackingStore": false,
+      "includeAdditionalData": true,
+      "excludeBackwardCompatible": false,
+      "disabledValidationRules": [],
+      "descriptionLocation": "./openapi.json",
+      "includePatterns": [
+        "/",
+        "/account",
+        "/account/{id}",
+        "/auth",
+        "/auth/login",
+        "/auth/register",
+        "/mailinbox",
+        "/mailinbox/{account-id}",
+        "/transaction",
+        "/transaction/{id}"
+      ],
+      "excludePatterns": [],
+      "outputPath": "./app_financeflix/lib/ApiClient"
+    }
+  },
+  "plugins": {}
+}
