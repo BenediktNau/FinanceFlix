@@ -9,28 +9,67 @@ namespace FinanceFlix.Services.AI;
 public class CategorizationService : ICategorizationService
 {
     private readonly OllamaApiClient _ollama;
+    private readonly ILogger<CategorizationService> _logger;
 
-    public CategorizationService(IConfiguration config)
+    public CategorizationService(IConfiguration config, ILogger<CategorizationService> logger)
     {
         var host = config["Ollama:Host"] ?? "http://localhost:11434";
-        var model = config["Ollama:Model"] ?? "llama3.2";
-        _ollama = new OllamaApiClient(host) { SelectedModel = model };
+        var model = config["Ollama:Model"] ?? "gemma3:4b";
+        var httpClient = new HttpClient { BaseAddress = new Uri(host), Timeout = TimeSpan.FromMinutes(5) };
+        _ollama = new OllamaApiClient(httpClient) { SelectedModel = model };
+        _logger = logger;
     }
 
-    public async Task<(TransactionCategory Category, decimal Amount)> CategorizeAsync(string subject, string body, CancellationToken ct = default)
+    private static string CleanEmailBody(string body)
     {
-        var categories = string.Join(", ", Enum.GetNames<TransactionCategory>());
+        // Remove forwarding header blocks
+        var cleaned = Regex.Replace(body, @"-{5,}\s*Forwarded message\s*-{5,}", "", RegexOptions.IgnoreCase);
+        // Remove forwarding metadata lines (Von/From, Date, To) but keep Subject
+        cleaned = Regex.Replace(cleaned, @"^(Von|From|To|Date|Datum|An):.*$", "", RegexOptions.Multiline | RegexOptions.IgnoreCase);
+        // Remove URLs
+        cleaned = Regex.Replace(cleaned, @"https?://\S+", "");
+        // Remove image/link markers like [image: Steam]
+        cleaned = Regex.Replace(cleaned, @"\[image:[^\]]*\]", "");
+        // Remove lines that are just whitespace or asterisks
+        cleaned = Regex.Replace(cleaned, @"^\s*\*?\s*$", "", RegexOptions.Multiline);
+        // Collapse 3+ consecutive newlines into 2
+        cleaned = Regex.Replace(cleaned, @"(\r?\n\s*){3,}", "\n\n");
+        // Truncate to 2000 chars
+        if (cleaned.Length > 2000)
+            cleaned = cleaned[..2000];
+        return cleaned.Trim();
+    }
+
+    public async Task<(TransactionCategory Category, decimal Amount, string Description)> CategorizeAsync(string subject, string body, CancellationToken ct = default)
+    {
+        var cleanedBody = CleanEmailBody(body);
 
         var prompt = $$"""
-            You are a financial transaction categorizer for a German finance app.
-            Given this bill/receipt email, extract:
-            1. The category (must be exactly one of: {{categories}})
-            2. The total amount as a decimal number (e.g. 29.99)
+            You are a financial transaction categorizer. Analyze the email below and extract exactly three fields.
 
-            Email Subject: {{subject}}
-            Email Body: {{body}}
+            CATEGORIES (pick exactly one):
+            - Income: salary, wages, refunds, reimbursements, interest, dividends
+            - Housing: rent, mortgage, utilities, electricity, water, internet, insurance
+            - Groceries: supermarket, food, beverages, household supplies
+            - Transport: fuel, public transit, car maintenance, ride-sharing, parking, flights
+            - Entertainment: games, streaming, movies, music, concerts, hobbies, subscriptions (Netflix, Steam, Spotify, etc.)
+            - Health: pharmacy, doctor, dentist, gym, medical insurance
+            - Shopping: clothing, electronics, furniture, online retail (Amazon, etc.)
+            - Savings: transfers to savings accounts, investments
+            - Other: anything that does not clearly fit the above
 
-            Respond ONLY with valid JSON, nothing else: {"category": "...", "amount": 0.00}
+            RULES:
+            - "category": use exactly one of the category names above (e.g. "Entertainment", not "entertainment").
+            - "amount": the final total the customer paid as a decimal (e.g. 29.99). Use the amount after tax/VAT if shown.
+            - "description": try to name the specific item(s) or service purchased (e.g. "RV There Yet? (Steam)" not "Steam game purchase receipt"). Always include the actual product name if mentioned in the email. Additional Add 1-2 simple, short Sentences to this product(s).
+            - If the email is not a receipt or bill, use category "Other", amount 0.00, and describe what the email is about.
+
+            EMAIL SUBJECT: {{subject}}
+            EMAIL BODY:
+            {{cleanedBody}}
+
+            Respond with ONLY valid JSON, no extra text:
+            {"category": "...", "amount": 0.00, "description": "..."}
             """;
 
         var request = new GenerateRequest
@@ -40,6 +79,8 @@ public class CategorizationService : ICategorizationService
             Stream = false,
             Format = "json"
         };
+        
+        _logger.Log(LogLevel.Information, "This is the prompt: {Prompt}", prompt);
 
         var responseText = string.Empty;
 
@@ -52,7 +93,7 @@ public class CategorizationService : ICategorizationService
         // Extract JSON from response (in case the model wraps it in extra text)
         var jsonMatch = Regex.Match(responseText, @"\{[^}]*\}");
         if (!jsonMatch.Success)
-            return (TransactionCategory.Sonstiges, 0m);
+            return (TransactionCategory.Other, 0m, "JSON Matching gone wrong");
 
         var result = JsonSerializer.Deserialize<CategorizationResult>(jsonMatch.Value, new JsonSerializerOptions
         {
@@ -60,12 +101,12 @@ public class CategorizationService : ICategorizationService
         });
 
         if (result is null)
-            return (TransactionCategory.Sonstiges, 0m);
+            return (TransactionCategory.Other, 0m, "No Result");
 
         if (Enum.TryParse<TransactionCategory>(result.Category, ignoreCase: true, out var category))
-            return (category, result.Amount);
+            return (category, result.Amount, result.Description);
 
-        return (TransactionCategory.Sonstiges, result.Amount);
+        return (TransactionCategory.Other, result.Amount, result.Description);
     }
 }
 
@@ -73,4 +114,5 @@ internal class CategorizationResult
 {
     public string Category { get; set; } = string.Empty;
     public decimal Amount { get; set; }
+    public string Description { get; set; } = string.Empty;
 }

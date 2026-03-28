@@ -99,7 +99,11 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _navigateToApp() {
     final apiClient = widget.authService.createAuthenticatedClient();
-    final service = FinanceService(apiClient: apiClient);
+    final service = FinanceService(
+      apiClient: apiClient,
+      serverUrl: widget.authService.serverUrl,
+      token: widget.authService.token,
+    );
     Navigator.of(context).pushAndRemoveUntil(
       MaterialPageRoute(
         builder: (_) => AccountListScreen(
@@ -168,7 +172,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   decoration: const InputDecoration(
                     labelText: 'Email',
                     prefixIcon: Icon(Icons.email_outlined),
-                    border: OutlineInputBorder(),
                   ),
                   keyboardType: TextInputType.emailAddress,
                   autocorrect: false,
@@ -188,7 +191,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   decoration: InputDecoration(
                     labelText: 'Password',
                     prefixIcon: const Icon(Icons.lock_outlined),
-                    border: const OutlineInputBorder(),
                     suffixIcon: IconButton(
                       icon: Icon(_obscurePassword
                           ? Icons.visibility

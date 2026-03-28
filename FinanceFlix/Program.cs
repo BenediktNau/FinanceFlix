@@ -14,13 +14,16 @@ using FinanceFlix.Models.Auth;
 using FinanceFlix.Models.Common;
 using FinanceFlix.Models.MailInbox;
 using FinanceFlix.Models.Transaction;
+using FinanceFlix.Models.TransactionImage;
 using FinanceFlix.Pipeline;
 using FinanceFlix.Repositories.Account;
 using FinanceFlix.Repositories.Auth;
 using FinanceFlix.Repositories.MailInbox;
 using FinanceFlix.Repositories.Transaction;
+using FinanceFlix.Repositories.TransactionImage;
 using FinanceFlix.Services.AI;
 using FinanceFlix.Services.Auth;
+using FinanceFlix.Services.Mail;
 using Mediator;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -76,7 +79,14 @@ builder.Services.AddOpenApi()
     .AddScoped<ITransactionRepository, TransactionRepository>()
     .AddScoped<IAccountRepository, AccountRepository>()
     .AddScoped<IMailInboxRepository, MailInboxRepository>()
+    .AddScoped<ITransactionImageRepository, TransactionImageRepository>()
     .AddScoped<ICategorizationService, CategorizationService>();
+
+var featuresConfig = builder.Configuration.GetSection("Features");
+if (featuresConfig.GetValue<bool>("MailInboxEnabled"))
+{
+    builder.Services.AddHostedService<MailListenerService>();
+}
 
 var app = builder.Build();
 
@@ -89,7 +99,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 // Public features endpoint — no auth required
-var featuresConfig = builder.Configuration.GetSection("Features");
 app.MapGet("/features", () => new ServerFeatures(
     featuresConfig.GetValue<bool>("AiEnabled"),
     featuresConfig.GetValue<bool>("MailInboxEnabled")
@@ -119,11 +128,25 @@ var transactionApi = app.MapGroup("/transaction").RequireAuthorization();
 transactionApi.MapGet("/", async (IMediator mediator) =>
     await mediator.Send(new GetAllTransactionsQuery()));
 transactionApi.MapPost("/", async (CreateTransactionRequest req, IMediator mediator) =>
-    await mediator.Send(new CreateTransactionCommand(req.AccountId, req.Amount, req.Category, req.Date)));
+    await mediator.Send(new CreateTransactionCommand(req.AccountId, req.Amount, req.Description, req.Category, req.Date)));
 transactionApi.MapPut("/{id}", async (int id, UpdateTransactionRequest req, IMediator mediator) =>
-    await mediator.Send(new UpdateTransactionCommand(id, req.Amount, req.Category, req.Date)));
+    await mediator.Send(new UpdateTransactionCommand(id, req.Amount, req.Description, req.Category, req.Date)));
 transactionApi.MapDelete("/{id}", async (int id, IMediator mediator) =>
     await mediator.Send(new DeleteTransactionCommand(id)));
+transactionApi.MapGet("/{id}/images", async (int id, ITransactionImageRepository imgRepo) =>
+{
+    var images = await imgRepo.GetByTransactionIdAsync(id);
+    return Results.Ok(images.Select(i => i.Id).ToList());
+});
+transactionApi.MapGet("/{id}/image/{imageId}", async (int id, int imageId, ITransactionImageRepository imgRepo) =>
+{
+    var images = await imgRepo.GetByTransactionIdAsync(id);
+    var image = images.FirstOrDefault(i => i.Id == imageId);
+    if (image is null || !File.Exists(image.FilePath))
+        return Results.NotFound();
+    var bytes = await File.ReadAllBytesAsync(image.FilePath);
+    return Results.File(bytes, image.ContentType);
+});
 
 var mailInboxApi = app.MapGroup("/mailinbox").RequireAuthorization();
 mailInboxApi.MapGet("/{accountId}", async (int accountId, IMediator mediator) =>
@@ -140,8 +163,8 @@ record RegisterRequest(string Email, string Password);
 record LoginRequest(string Email, string Password);
 record CreateAccountRequest(string AccountName, decimal Balance);
 record UpdateAccountRequest(string AccountName, decimal Balance);
-record CreateTransactionRequest(int AccountId, decimal Amount, TransactionCategory Category, DateTime Date);
-record UpdateTransactionRequest(decimal Amount, TransactionCategory Category, DateTime Date);
+record CreateTransactionRequest(int AccountId, decimal Amount, string? Description, TransactionCategory Category, DateTime Date);
+record UpdateTransactionRequest(decimal Amount, string? Description, TransactionCategory Category, DateTime Date);
 record CreateMailInboxRequest(int AccountId, string DisplayName, string ImapHost, int ImapPort, bool UseSsl, string Username, string Password, string FolderName);
 record ServerFeatures(bool AiEnabled, bool MailInboxEnabled);
 
@@ -155,6 +178,8 @@ record ServerFeatures(bool AiEnabled, bool MailInboxEnabled);
 [JsonSerializable(typeof(Result<List<Transaction>>))]
 [JsonSerializable(typeof(Result<bool>))]
 [JsonSerializable(typeof(Result<string>))]
+[JsonSerializable(typeof(List<int>))]
+[JsonSerializable(typeof(TransactionImage))]
 [JsonSerializable(typeof(MailInbox))]
 [JsonSerializable(typeof(List<MailInbox>))]
 [JsonSerializable(typeof(Result<MailInbox>))]

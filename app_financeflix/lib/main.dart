@@ -40,9 +40,82 @@ class FinanceFlixApp extends StatelessWidget {
       title: 'FinanceFlix',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorSchemeSeed: Colors.teal,
+        colorSchemeSeed: Colors.blue,
         useMaterial3: true,
         brightness: Brightness.light,
+        cardTheme: CardThemeData(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+        ),
+        inputDecorationTheme: InputDecorationTheme(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+        ),
+        filledButtonTheme: FilledButtonThemeData(
+          style: FilledButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+          ),
+        ),
+        outlinedButtonTheme: OutlinedButtonThemeData(
+          style: OutlinedButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+          ),
+        ),
+        floatingActionButtonTheme: FloatingActionButtonThemeData(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+        ),
+        dialogTheme: DialogThemeData(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(24),
+          ),
+        ),
+        chipTheme: ChipThemeData(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+        ),
+        segmentedButtonTheme: SegmentedButtonThemeData(
+          style: ButtonStyle(
+            shape: WidgetStatePropertyAll(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+            ),
+          ),
+        ),
+        appBarTheme: const AppBarTheme(
+          centerTitle: true,
+        ),
+        bottomSheetTheme: const BottomSheetThemeData(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+          ),
+        ),
+        listTileTheme: ListTileThemeData(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+        ),
       ),
       home: _buildHome(),
     );
@@ -51,7 +124,11 @@ class FinanceFlixApp extends StatelessWidget {
   Widget _buildHome() {
     if (authService.isLoggedIn) {
       final apiClient = authService.createAuthenticatedClient();
-      final service = FinanceService(apiClient: apiClient);
+      final service = FinanceService(
+        apiClient: apiClient,
+        serverUrl: authService.serverUrl,
+        token: authService.token,
+      );
       return AccountListScreen(
         service: service,
         authService: authService,

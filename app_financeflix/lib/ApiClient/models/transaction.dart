@@ -14,10 +14,14 @@ class Transaction implements AdditionalDataHolder, Parsable {
     int? category;
     ///  The date property
     DateTime? date;
+    ///  The description property
+    String? description;
     ///  The id property
     UntypedNode? id;
+    ///  The imageCount property
+    UntypedNode? imageCount;
     /// Instantiates a new [Transaction] and sets the default values.
-    Transaction() :  
+    Transaction() :
         additionalData = {};
     /// Creates a new instance of the appropriate class based on discriminator value
     ///  [parseNode] The parse node to use to read the discriminator value and create the object
@@ -32,7 +36,9 @@ class Transaction implements AdditionalDataHolder, Parsable {
         deserializerMap['amount'] = (node) => amount = node.getObjectValue<UntypedNode>(UntypedNode.createFromDiscriminatorValue);
         deserializerMap['category'] = (node) => category = node.getIntValue();
         deserializerMap['date'] = (node) => date = node.getDateTimeValue();
+        deserializerMap['description'] = (node) => description = node.getStringValue();
         deserializerMap['id'] = (node) => id = node.getObjectValue<UntypedNode>(UntypedNode.createFromDiscriminatorValue);
+        deserializerMap['imageCount'] = (node) => imageCount = node.getObjectValue<UntypedNode>(UntypedNode.createFromDiscriminatorValue);
         return deserializerMap;
     }
     /// Serializes information the current object
@@ -43,7 +49,9 @@ class Transaction implements AdditionalDataHolder, Parsable {
         writer.writeObjectValue<UntypedNode>('amount', amount);
         writer.writeIntValue('category', category);
         writer.writeDateTimeValue('date', date);
+        writer.writeStringValue('description', description);
         writer.writeObjectValue<UntypedNode>('id', id);
+        writer.writeObjectValue<UntypedNode>('imageCount', imageCount);
         writer.writeAdditionalData(additionalData);
     }
 }

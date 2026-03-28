@@ -22,12 +22,13 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
     super.dispose();
   }
 
-  void _submit() {
+  Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
-    widget.service.createAccount(
+    await widget.service.createAccount(
       _nameController.text.trim(),
       double.parse(_balanceController.text),
     );
+    if (!mounted) return;
     Navigator.pop(context);
   }
 
@@ -54,7 +55,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                   labelText: 'Account Name',
                   hintText: 'e.g. Checking Account',
                   prefixIcon: Icon(Icons.label_outline),
-                  border: OutlineInputBorder(),
+
                 ),
                 textCapitalization: TextCapitalization.words,
                 validator: (value) {
@@ -71,7 +72,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                   labelText: 'Start Balance',
                   hintText: '0.00',
                   prefixIcon: Icon(Icons.euro),
-                  border: OutlineInputBorder(),
+
                 ),
                 keyboardType:
                     const TextInputType.numberWithOptions(decimal: true),

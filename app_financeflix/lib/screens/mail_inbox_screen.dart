@@ -287,7 +287,7 @@ class _AddMailInboxFormState extends State<_AddMailInboxForm> {
                 decoration: const InputDecoration(
                   labelText: 'Display Name',
                   hintText: 'e.g. My Gmail',
-                  border: OutlineInputBorder(),
+
                 ),
                 validator: (v) =>
                     v == null || v.trim().isEmpty ? 'Required' : null,
@@ -298,7 +298,7 @@ class _AddMailInboxFormState extends State<_AddMailInboxForm> {
                 decoration: const InputDecoration(
                   labelText: 'IMAP Host',
                   hintText: 'e.g. imap.gmail.com',
-                  border: OutlineInputBorder(),
+
                 ),
                 validator: (v) =>
                     v == null || v.trim().isEmpty ? 'Required' : null,
@@ -311,7 +311,7 @@ class _AddMailInboxFormState extends State<_AddMailInboxForm> {
                       controller: _imapPortController,
                       decoration: const InputDecoration(
                         labelText: 'Port',
-                        border: OutlineInputBorder(),
+      
                       ),
                       keyboardType: TextInputType.number,
                       validator: (v) {
@@ -337,7 +337,7 @@ class _AddMailInboxFormState extends State<_AddMailInboxForm> {
                 controller: _usernameController,
                 decoration: const InputDecoration(
                   labelText: 'Username / Email',
-                  border: OutlineInputBorder(),
+
                 ),
                 validator: (v) =>
                     v == null || v.trim().isEmpty ? 'Required' : null,
@@ -347,7 +347,7 @@ class _AddMailInboxFormState extends State<_AddMailInboxForm> {
                 controller: _passwordController,
                 decoration: const InputDecoration(
                   labelText: 'Password',
-                  border: OutlineInputBorder(),
+
                 ),
                 obscureText: true,
                 validator: (v) =>
@@ -359,7 +359,7 @@ class _AddMailInboxFormState extends State<_AddMailInboxForm> {
                 decoration: const InputDecoration(
                   labelText: 'Folder Name',
                   hintText: 'INBOX',
-                  border: OutlineInputBorder(),
+
                 ),
               ),
               if (_error != null) ...[

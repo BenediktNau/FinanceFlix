@@ -4,5 +4,5 @@ namespace FinanceFlix.Services.AI;
 
 public interface ICategorizationService
 {
-    Task<(TransactionCategory Category, decimal Amount)> CategorizeAsync(string subject, string body, CancellationToken ct = default);
+    Task<(TransactionCategory Category, decimal Amount, string Description)> CategorizeAsync(string subject, string body, CancellationToken ct = default);
 }

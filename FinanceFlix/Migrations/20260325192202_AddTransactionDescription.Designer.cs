@@ -3,6 +3,7 @@ using System;
 using FinanceFlix;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinanceFlix.Migrations
 {
     [DbContext(typeof(DBContext))]
-    partial class DBContextModelSnapshot : ModelSnapshot
+    [Migration("20260325192202_AddTransactionDescription")]
+    partial class AddTransactionDescription
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "10.0.5");
@@ -125,44 +128,6 @@ namespace FinanceFlix.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Transactions");
-                });
-
-            modelBuilder.Entity("FinanceFlix.Models.TransactionImage.TransactionImage", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("ContentType")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("FilePath")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("TransactionId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TransactionId");
-
-                    b.ToTable("TransactionImages");
-                });
-
-            modelBuilder.Entity("FinanceFlix.Models.TransactionImage.TransactionImage", b =>
-                {
-                    b.HasOne("FinanceFlix.Models.Transaction.Transaction", null)
-                        .WithMany("Images")
-                        .HasForeignKey("TransactionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("FinanceFlix.Models.Transaction.Transaction", b =>
-                {
-                    b.Navigation("Images");
                 });
 #pragma warning restore 612, 618
         }

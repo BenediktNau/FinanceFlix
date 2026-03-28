@@ -17,7 +17,7 @@ public class TransactionRepository : ITransactionRepository
 
     public async Task<List<Transaction>> GetAllAsync(CancellationToken cancellationToken = default)
     {
-        return await _db.Transactions.ToListAsync(cancellationToken);
+        return await _db.Transactions.Include(t => t.Images).ToListAsync(cancellationToken);
     }
 
     public async Task<Transaction?> GetByIdAsync(int id, CancellationToken cancellationToken = default)

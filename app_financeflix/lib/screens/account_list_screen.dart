@@ -7,7 +7,7 @@ import 'create_account_screen.dart';
 import 'account_detail_screen.dart';
 import 'settings_screen.dart';
 
-class AccountListScreen extends StatelessWidget {
+class AccountListScreen extends StatefulWidget {
   final FinanceService service;
   final AuthService authService;
   final SettingsService settingsService;
@@ -18,6 +18,17 @@ class AccountListScreen extends StatelessWidget {
     required this.authService,
     required this.settingsService,
   });
+
+  @override
+  State<AccountListScreen> createState() => _AccountListScreenState();
+}
+
+class _AccountListScreenState extends State<AccountListScreen> {
+  @override
+  void initState() {
+    super.initState();
+    widget.service.fetchAccounts();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,8 +44,8 @@ class AccountListScreen extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (_) => SettingsScreen(
-                    settingsService: settingsService,
-                    authService: authService,
+                    settingsService: widget.settingsService,
+                    authService: widget.authService,
                   ),
                 ),
               );
@@ -43,17 +54,26 @@ class AccountListScreen extends StatelessWidget {
         ],
       ),
       body: ListenableBuilder(
-        listenable: service,
+        listenable: widget.service,
         builder: (context, _) {
-          final accounts = service.accounts;
+          if (widget.service.loadingAccounts && widget.service.accounts.isEmpty) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          if (widget.service.accountsError != null && widget.service.accounts.isEmpty) {
+            return _buildErrorState(context, widget.service.accountsError!);
+          }
+          final accounts = widget.service.accounts;
           if (accounts.isEmpty) {
             return _buildEmptyState(context);
           }
-          return ListView.builder(
-            padding: const EdgeInsets.all(16),
-            itemCount: accounts.length,
-            itemBuilder: (context, index) =>
-                _buildAccountCard(context, accounts[index]),
+          return RefreshIndicator(
+            onRefresh: () => widget.service.fetchAccounts(),
+            child: ListView.builder(
+              padding: const EdgeInsets.all(16),
+              itemCount: accounts.length,
+              itemBuilder: (context, index) =>
+                  _buildAccountCard(context, accounts[index]),
+            ),
           );
         },
       ),
@@ -61,6 +81,43 @@ class AccountListScreen extends StatelessWidget {
         onPressed: () => _navigateToCreate(context),
         icon: const Icon(Icons.add),
         label: const Text('Account'),
+      ),
+    );
+  }
+
+  Widget _buildErrorState(BuildContext context, String error) {
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            Icons.cloud_off,
+            size: 80,
+            color: Theme.of(context).colorScheme.error,
+          ),
+          const SizedBox(height: 16),
+          Text(
+            'Could not load accounts',
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
+          const SizedBox(height: 8),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 32),
+            child: Text(
+              error,
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: Theme.of(context).colorScheme.outline,
+                  ),
+            ),
+          ),
+          const SizedBox(height: 24),
+          FilledButton.icon(
+            onPressed: () => widget.service.fetchAccounts(),
+            icon: const Icon(Icons.refresh),
+            label: const Text('Retry'),
+          ),
+        ],
       ),
     );
   }
@@ -130,8 +187,8 @@ class AccountListScreen extends StatelessWidget {
             context,
             MaterialPageRoute(
               builder: (_) => AccountDetailScreen(
-                service: service,
-                settingsService: settingsService,
+                service: widget.service,
+                settingsService: widget.settingsService,
                 accountId: account.id,
               ),
             ),
@@ -145,7 +202,7 @@ class AccountListScreen extends StatelessWidget {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (_) => CreateAccountScreen(service: service),
+        builder: (_) => CreateAccountScreen(service: widget.service),
       ),
     );
   }

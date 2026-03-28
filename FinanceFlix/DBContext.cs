@@ -2,6 +2,7 @@ using FinanceFlix.Models.Account;
 using FinanceFlix.Models.Auth;
 using FinanceFlix.Models.MailInbox;
 using FinanceFlix.Models.Transaction;
+using FinanceFlix.Models.TransactionImage;
 using Microsoft.EntityFrameworkCore;
 
 namespace FinanceFlix;
@@ -11,6 +12,7 @@ public class DBContext : DbContext
     public DbSet<Transaction> Transactions { get; set; }
     public DbSet<Account> Accounts { get; set; }
     public DbSet<MailInbox> MailInboxes { get; set; }
+    public DbSet<TransactionImage> TransactionImages { get; set; }
     public DbSet<User> Users { get; set; }
     
     public string DbPath { get; }
@@ -26,4 +28,13 @@ public class DBContext : DbContext
     // special "local" folder for your platform.
     protected override void OnConfiguring(DbContextOptionsBuilder options)
         => options.UseSqlite($"Data Source={DbPath}");
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Transaction>()
+            .HasMany(t => t.Images)
+            .WithOne()
+            .HasForeignKey(i => i.TransactionId)
+            .OnDelete(DeleteBehavior.Cascade);
+    }
 }

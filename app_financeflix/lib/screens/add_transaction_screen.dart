@@ -19,13 +19,15 @@ class AddTransactionScreen extends StatefulWidget {
 class _AddTransactionScreenState extends State<AddTransactionScreen> {
   final _formKey = GlobalKey<FormState>();
   final _amountController = TextEditingController();
-  TransactionCategory _selectedCategory = TransactionCategory.sonstiges;
+  final _descriptionController = TextEditingController();
+  TransactionCategory _selectedCategory = TransactionCategory.other;
   DateTime _selectedDate = DateTime.now();
   bool _isIncome = false;
 
   @override
   void dispose() {
     _amountController.dispose();
+    _descriptionController.dispose();
     super.dispose();
   }
 
@@ -41,16 +43,19 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
     }
   }
 
-  void _submit() {
+  Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
     final amount = double.parse(_amountController.text);
     final signedAmount = _isIncome ? amount : -amount;
-    widget.service.addTransaction(
+    final description = _descriptionController.text.trim();
+    await widget.service.addTransaction(
       widget.accountId,
       signedAmount,
+      description.isEmpty ? null : description,
       _selectedCategory,
       _selectedDate,
     );
+    if (!mounted) return;
     Navigator.pop(context);
   }
 
@@ -98,7 +103,6 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
                     Icons.euro,
                     color: _isIncome ? Colors.green : Colors.red,
                   ),
-                  border: const OutlineInputBorder(),
                 ),
                 keyboardType:
                     const TextInputType.numberWithOptions(decimal: true),
@@ -114,12 +118,22 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
                 },
               ),
               const SizedBox(height: 16),
+              TextFormField(
+                controller: _descriptionController,
+                decoration: const InputDecoration(
+                  labelText: 'Description (optional)',
+                  hintText: 'e.g. Grocery shopping',
+                  prefixIcon: Icon(Icons.description),
+
+                ),
+              ),
+              const SizedBox(height: 16),
               DropdownButtonFormField<TransactionCategory>(
                 initialValue: _selectedCategory,
                 decoration: const InputDecoration(
                   labelText: 'Category',
                   prefixIcon: Icon(Icons.category),
-                  border: OutlineInputBorder(),
+
                 ),
                 items: TransactionCategory.values
                     .map((cat) => DropdownMenuItem(
@@ -144,7 +158,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
                   decoration: const InputDecoration(
                     labelText: 'Date',
                     prefixIcon: Icon(Icons.calendar_today),
-                    border: OutlineInputBorder(),
+  
                   ),
                   child: Text(
                     '${_selectedDate.day.toString().padLeft(2, '0')}.'

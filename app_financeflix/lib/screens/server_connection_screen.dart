@@ -114,7 +114,7 @@ class _ServerConnectionScreenState extends State<ServerConnectionScreen> {
                     labelText: 'Server URL',
                     hintText: 'http://192.168.1.100:3000',
                     prefixIcon: Icon(Icons.dns_outlined),
-                    border: OutlineInputBorder(),
+
                   ),
                   keyboardType: TextInputType.url,
                   autocorrect: false,

@@ -14,8 +14,10 @@ class CreateTransactionRequest implements AdditionalDataHolder, Parsable {
     int? category;
     ///  The date property
     DateTime? date;
+    ///  The description property
+    String? description;
     /// Instantiates a new [CreateTransactionRequest] and sets the default values.
-    CreateTransactionRequest() :  
+    CreateTransactionRequest() :
         additionalData = {};
     /// Creates a new instance of the appropriate class based on discriminator value
     ///  [parseNode] The parse node to use to read the discriminator value and create the object
@@ -30,6 +32,7 @@ class CreateTransactionRequest implements AdditionalDataHolder, Parsable {
         deserializerMap['amount'] = (node) => amount = node.getObjectValue<UntypedNode>(UntypedNode.createFromDiscriminatorValue);
         deserializerMap['category'] = (node) => category = node.getIntValue();
         deserializerMap['date'] = (node) => date = node.getDateTimeValue();
+        deserializerMap['description'] = (node) => description = node.getStringValue();
         return deserializerMap;
     }
     /// Serializes information the current object
@@ -40,6 +43,7 @@ class CreateTransactionRequest implements AdditionalDataHolder, Parsable {
         writer.writeObjectValue<UntypedNode>('amount', amount);
         writer.writeIntValue('category', category);
         writer.writeDateTimeValue('date', date);
+        writer.writeStringValue('description', description);
         writer.writeAdditionalData(additionalData);
     }
 }

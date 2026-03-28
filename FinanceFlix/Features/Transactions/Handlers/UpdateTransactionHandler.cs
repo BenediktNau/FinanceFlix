@@ -24,6 +24,7 @@ namespace FinanceFlix.Features.Transactions.Handlers
                 {
                     Id = request.Id,
                     Amount = request.Amount,
+                    Description = request.Description,
                     Category = request.Category,
                     Date = request.Date
                 }, cancellationToken);

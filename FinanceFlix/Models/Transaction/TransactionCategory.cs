@@ -2,13 +2,13 @@ namespace FinanceFlix.Models.Transaction;
 
 public enum TransactionCategory
 {
-    Einkommen,
-    Wohnen,
-    Lebensmittel,
+    Income,
+    Housing,
+    Groceries,
     Transport,
-    Unterhaltung,
-    Gesundheit,
+    Entertainment,
+    Health,
     Shopping,
-    Sparen,
-    Sonstiges
+    Savings,
+    Other
 }
