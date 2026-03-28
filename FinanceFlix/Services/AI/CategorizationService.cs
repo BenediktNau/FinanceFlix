@@ -40,12 +40,76 @@ public class CategorizationService : ICategorizationService
         return cleaned.Trim();
     }
 
+    /// <summary>
+    /// Extracts the total amount from an email using regex.
+    /// Looks for a "Total" line first, then falls back to summing all prices.
+    /// </summary>
+    private decimal? ExtractAmountFromText(string text)
+    {
+        // Price pattern: currency symbol + digits with decimal (e.g. €36.88, $29.99, £12,50)
+        // Also handles: 36.88€, 36,88 EUR, EUR 36.88
+        const string decimalPrice =
+            @"(?:[\€\$£]\s?)(\d{1,6}[.,]\d{2})" +   // €36.88 or € 36,88
+            @"|(\d{1,6}[.,]\d{2})\s?(?:[\€\$£]|EUR|USD|GBP)"; // 36.88€ or 36.88 EUR
+
+        // 1. Look for a "total" line — most reliable
+        var totalMatch = Regex.Match(text,
+            @"(?:Total|Gesamt|Summe|Order\s*Total|Grand\s*Total|Gesamtbetrag)[:\s]*(?:[\€\$£]\s?)(\d{1,6}[.,]\d{2})|" +
+            @"(?:Total|Gesamt|Summe|Order\s*Total|Grand\s*Total|Gesamtbetrag)[:\s]*(\d{1,6}[.,]\d{2})\s?(?:[\€\$£]|EUR|USD|GBP)",
+            RegexOptions.IgnoreCase);
+
+        if (totalMatch.Success)
+        {
+            var totalStr = totalMatch.Groups.Cast<Group>()
+                .Skip(1)
+                .FirstOrDefault(g => g.Success)?.Value;
+
+            if (totalStr != null && TryParsePrice(totalStr, out var total))
+            {
+                _logger.LogInformation("Regex extracted total amount: {Amount}", total);
+                return total;
+            }
+        }
+
+        // 2. No total found — sum all properly formatted prices
+        var prices = new List<decimal>();
+        foreach (Match m in Regex.Matches(text, decimalPrice))
+        {
+            var priceStr = m.Groups.Cast<Group>()
+                .Skip(1)
+                .FirstOrDefault(g => g.Success)?.Value;
+
+            if (priceStr != null && TryParsePrice(priceStr, out var price))
+                prices.Add(price);
+        }
+
+        if (prices.Count > 0)
+        {
+            var sum = prices.Sum();
+            _logger.LogInformation("Regex extracted {Count} prices, sum: {Amount}", prices.Count, sum);
+            return sum;
+        }
+
+        return null;
+    }
+
+    private static bool TryParsePrice(string priceStr, out decimal result)
+    {
+        // Normalize: replace comma decimal separator with dot
+        var normalized = priceStr.Replace(',', '.');
+        return decimal.TryParse(normalized, System.Globalization.NumberStyles.AllowDecimalPoint,
+            System.Globalization.CultureInfo.InvariantCulture, out result);
+    }
+
     public async Task<(TransactionCategory Category, decimal Amount, string Description)> CategorizeAsync(string subject, string body, CancellationToken ct = default)
     {
         var cleanedBody = CleanEmailBody(body);
 
+        // Extract amount via regex first — much more reliable than AI for numbers
+        var regexAmount = ExtractAmountFromText(body) ?? ExtractAmountFromText(subject);
+
         var prompt = $$"""
-            You are a financial transaction categorizer. Analyze the email below and extract exactly three fields.
+            You are a financial transaction categorizer. Analyze the email below and extract exactly two fields.
 
             CATEGORIES (pick exactly one):
             - Income: salary, wages, refunds, reimbursements, interest, dividends
@@ -60,16 +124,15 @@ public class CategorizationService : ICategorizationService
 
             RULES:
             - "category": use exactly one of the category names above (e.g. "Entertainment", not "entertainment").
-            - "amount": the final total the customer paid as a decimal (e.g. 29.99). Use the amount after tax/VAT if shown.
-            - "description": try to name the specific item(s) or service purchased (e.g. "RV There Yet? (Steam)" not "Steam game purchase receipt"). Always include the actual product name if mentioned in the email. Additional Add 1-2 simple, short Sentences to this product(s).
-            - If the email is not a receipt or bill, use category "Other", amount 0.00, and describe what the email is about.
+            - "description": List ALL items or services purchased, separated by " + " (e.g. "Anker Nano 65W USB C Charger + VARTA AAA Rechargeable Batteries"). Always include every product name mentioned in the email. Keep each item name short but recognizable.
+            - If the email is not a receipt or bill, use category "Other" and describe what the email is about.
 
             EMAIL SUBJECT: {{subject}}
             EMAIL BODY:
             {{cleanedBody}}
 
             Respond with ONLY valid JSON, no extra text:
-            {"category": "...", "amount": 0.00, "description": "..."}
+            {"category": "...", "description": "..."}
             """;
 
         var request = new GenerateRequest
@@ -79,7 +142,7 @@ public class CategorizationService : ICategorizationService
             Stream = false,
             Format = "json"
         };
-        
+
         _logger.Log(LogLevel.Information, "This is the prompt: {Prompt}", prompt);
 
         var responseText = string.Empty;
@@ -93,7 +156,7 @@ public class CategorizationService : ICategorizationService
         // Extract JSON from response (in case the model wraps it in extra text)
         var jsonMatch = Regex.Match(responseText, @"\{[^}]*\}");
         if (!jsonMatch.Success)
-            return (TransactionCategory.Other, 0m, "JSON Matching gone wrong");
+            return (TransactionCategory.Other, regexAmount ?? 0m, "JSON Matching gone wrong");
 
         var result = JsonSerializer.Deserialize<CategorizationResult>(jsonMatch.Value, new JsonSerializerOptions
         {
@@ -101,12 +164,15 @@ public class CategorizationService : ICategorizationService
         });
 
         if (result is null)
-            return (TransactionCategory.Other, 0m, "No Result");
+            return (TransactionCategory.Other, regexAmount ?? 0m, "No Result");
+
+        // Use regex amount if available, otherwise fall back to AI amount
+        var amount = regexAmount ?? result.Amount;
 
         if (Enum.TryParse<TransactionCategory>(result.Category, ignoreCase: true, out var category))
-            return (category, result.Amount, result.Description);
+            return (category, amount, result.Description);
 
-        return (TransactionCategory.Other, result.Amount, result.Description);
+        return (TransactionCategory.Other, amount, result.Description);
     }
 }
 

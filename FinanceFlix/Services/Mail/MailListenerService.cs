@@ -288,7 +288,7 @@ public class MailListenerService : BackgroundService
                 continue;
 
             // For Amazon, request a larger product image by replacing size suffix
-            url = Regex.Replace(url, @"\._[A-Z]{2}\d+_\.", "._SS300_.");
+            url = Regex.Replace(url, @"\._[A-Z]{2}\d+_\.", "._SS500_.");
 
             try
             {
