@@ -1,6 +1,7 @@
 using FinanceFlix.Models.Account;
 using FinanceFlix.Models.Auth;
 using FinanceFlix.Models.MailInbox;
+using FinanceFlix.Models.RecurringTransaction;
 using FinanceFlix.Models.Transaction;
 using FinanceFlix.Models.TransactionImage;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +15,8 @@ public class DBContext : DbContext
     public DbSet<MailInbox> MailInboxes { get; set; }
     public DbSet<TransactionImage> TransactionImages { get; set; }
     public DbSet<User> Users { get; set; }
+    public DbSet<RefreshToken> RefreshTokens { get; set; }
+    public DbSet<RecurringTransaction> RecurringTransactions { get; set; }
     
     public string DbPath { get; }
 
@@ -36,5 +39,15 @@ public class DBContext : DbContext
             .WithOne()
             .HasForeignKey(i => i.TransactionId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<RefreshToken>()
+            .HasOne(rt => rt.User)
+            .WithMany()
+            .HasForeignKey(rt => rt.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<RefreshToken>()
+            .HasIndex(rt => rt.Token)
+            .IsUnique();
     }
 }

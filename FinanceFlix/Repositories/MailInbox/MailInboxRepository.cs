@@ -36,4 +36,18 @@ public class MailInboxRepository : IMailInboxRepository
         _db.MailInboxes.Remove(inbox);
         return (await _db.SaveChangesAsync(ct)) == 1;
     }
+
+    public async Task<Models.MailInbox.MailInbox> GetByIdAsync(int inboxId, CancellationToken ct = default)
+    {
+        var inbox = await _db.MailInboxes.FindAsync(inboxId);
+        if (inbox != null)
+        {
+            return inbox;
+        }
+        else
+        {
+            throw new InvalidOperationException("Inbox Not Found!");
+        }
+         
+    }
 }

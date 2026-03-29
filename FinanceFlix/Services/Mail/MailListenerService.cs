@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using System.Text.RegularExpressions;
 using FinanceFlix.Features.Transactions.Commands;
 using FinanceFlix.Repositories.MailInbox;
@@ -8,6 +9,7 @@ using MailKit;
 using MailKit.Net.Imap;
 using MailKit.Security;
 using Mediator;
+using Microsoft.OpenApi;
 using MimeKit;
 
 namespace FinanceFlix.Services.Mail;
@@ -19,6 +21,8 @@ public class MailListenerService : BackgroundService
 
     private readonly IServiceScopeFactory _scopeFactory;
     private readonly ILogger<MailListenerService> _logger;
+    private readonly ConcurrentBag<Task> _dynamicListeners = new();
+    private CancellationToken _stoppingToken;
 
     public MailListenerService(IServiceScopeFactory scopeFactory, ILogger<MailListenerService> logger)
     {
@@ -28,6 +32,7 @@ public class MailListenerService : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
+        _stoppingToken = stoppingToken;
         _logger.LogInformation("MailListenerService starting");
 
         List<Models.MailInbox.MailInbox> inboxes;
@@ -45,6 +50,26 @@ public class MailListenerService : BackgroundService
 
         var tasks = inboxes.Select(inbox => ListenToInboxAsync(inbox, stoppingToken));
         await Task.WhenAll(tasks);
+    }
+
+    public void StartOnAdding(int inboxId)
+    {
+        var task = StartOnAddingInternal(inboxId);
+        _dynamicListeners.Add(task);
+    }
+
+    private async Task StartOnAddingInternal(int inboxId)
+    {
+        _logger.LogInformation("MailListenerService for new Inbox {InboxId} starting", inboxId);
+
+        Models.MailInbox.MailInbox inbox;
+        using (var scope = _scopeFactory.CreateScope())
+        {
+            var repo = scope.ServiceProvider.GetRequiredService<IMailInboxRepository>();
+            inbox = await repo.GetByIdAsync(inboxId, _stoppingToken);
+        }
+
+        await ListenToInboxAsync(inbox, _stoppingToken);
     }
 
     private async Task ListenToInboxAsync(Models.MailInbox.MailInbox inbox, CancellationToken ct)

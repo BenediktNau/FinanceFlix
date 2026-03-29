@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:app_financeflix/models/app_transaction.dart';
+import 'package:app_financeflix/models/recurring_transaction.dart';
 import 'package:app_financeflix/services/finance_service.dart';
 import 'package:app_financeflix/services/settings_service.dart';
+import 'add_recurring_transaction_screen.dart';
 import 'add_transaction_screen.dart';
 import 'mail_inbox_screen.dart';
 import 'transaction_detail_screen.dart';
@@ -22,11 +24,37 @@ class AccountDetailScreen extends StatefulWidget {
   State<AccountDetailScreen> createState() => _AccountDetailScreenState();
 }
 
-class _AccountDetailScreenState extends State<AccountDetailScreen> {
+class _AccountDetailScreenState extends State<AccountDetailScreen>
+    with SingleTickerProviderStateMixin {
+  List<RecurringTransaction> _recurringTransactions = [];
+  bool _loadingRecurring = false;
+  late final TabController _tabController;
+
   @override
   void initState() {
     super.initState();
+    _tabController = TabController(length: 2, vsync: this);
+    _tabController.addListener(() => setState(() {}));
     widget.service.fetchTransactions();
+    _fetchRecurring();
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _fetchRecurring() async {
+    setState(() => _loadingRecurring = true);
+    final list =
+        await widget.service.fetchRecurringTransactions(widget.accountId);
+    if (mounted) {
+      setState(() {
+        _recurringTransactions = list;
+        _loadingRecurring = false;
+      });
+    }
   }
 
   @override
@@ -73,74 +101,131 @@ class _AccountDetailScreenState extends State<AccountDetailScreen> {
               ),
             ],
           ),
-          body: RefreshIndicator(
-            onRefresh: () async {
-              await Future.wait([
-                widget.service.fetchAccounts(),
-                widget.service.fetchTransactions(),
-              ]);
-            },
-            child: widget.service.loadingTransactions && transactions.isEmpty
-                ? const Center(child: CircularProgressIndicator())
-                : widget.service.transactionsError != null && transactions.isEmpty
-                    ? _buildErrorState(context)
-                    : CustomScrollView(
-                        slivers: [
-                          SliverToBoxAdapter(
-                            child: _buildBalanceCard(
-                                context, account.balance, transactions),
+          body: NestedScrollView(
+            headerSliverBuilder: (context, innerBoxIsScrolled) => [
+              SliverToBoxAdapter(
+                child: _buildBalanceCard(
+                    context, account.balance, transactions),
+              ),
+              SliverToBoxAdapter(
+                child: TabBar(
+                  controller: _tabController,
+                  tabs: [
+                    Tab(
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Text('Transactions'),
+                          const SizedBox(width: 6),
+                          Text(
+                            '${transactions.length}',
+                            style: Theme.of(context).textTheme.bodySmall,
                           ),
-                          SliverToBoxAdapter(
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 16, vertical: 8),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    'Transactions',
-                                    style:
-                                        Theme.of(context).textTheme.titleMedium,
-                                  ),
-                                  const Spacer(),
-                                  Text(
-                                    '${transactions.length}',
-                                    style:
-                                        Theme.of(context).textTheme.bodySmall,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          if (transactions.isEmpty)
-                            SliverFillRemaining(
-                              child: _buildEmptyTransactions(context),
-                            )
-                          else
-                            SliverList(
-                              delegate: SliverChildBuilderDelegate(
-                                (context, index) => _buildTransactionTile(
-                                    context, transactions[index]),
-                                childCount: transactions.length,
-                              ),
-                            ),
                         ],
                       ),
-          ),
-          floatingActionButton: FloatingActionButton.extended(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => AddTransactionScreen(
-                    service: widget.service,
-                    accountId: widget.accountId,
-                  ),
+                    ),
+                    Tab(
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Text('Recurring'),
+                          const SizedBox(width: 6),
+                          Text(
+                            '${_recurringTransactions.length}',
+                            style: Theme.of(context).textTheme.bodySmall,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-              );
-            },
-            icon: const Icon(Icons.add),
-            label: const Text('Transaction'),
+              ),
+            ],
+            body: TabBarView(
+              controller: _tabController,
+              children: [
+                // Tab 1: Transactions
+                RefreshIndicator(
+                  onRefresh: () async {
+                    await Future.wait([
+                      widget.service.fetchAccounts(),
+                      widget.service.fetchTransactions(),
+                    ]);
+                  },
+                  child: widget.service.loadingTransactions &&
+                          transactions.isEmpty
+                      ? const Center(child: CircularProgressIndicator())
+                      : widget.service.transactionsError != null &&
+                              transactions.isEmpty
+                          ? _buildErrorState(context)
+                          : transactions.isEmpty
+                              ? _buildEmptyState(
+                                  context,
+                                  Icons.receipt_long_outlined,
+                                  'No transactions yet',
+                                )
+                              : ListView.builder(
+                                  itemCount: transactions.length,
+                                  itemBuilder: (context, index) =>
+                                      _buildTransactionTile(
+                                          context, transactions[index]),
+                                ),
+                ),
+                // Tab 2: Recurring
+                RefreshIndicator(
+                  onRefresh: _fetchRecurring,
+                  child: _loadingRecurring && _recurringTransactions.isEmpty
+                      ? const Center(child: CircularProgressIndicator())
+                      : _recurringTransactions.isEmpty
+                          ? _buildEmptyState(
+                              context,
+                              Icons.repeat,
+                              'No recurring transactions',
+                            )
+                          : ListView.builder(
+                              itemCount: _recurringTransactions.length,
+                              itemBuilder: (context, index) =>
+                                  _buildRecurringTile(
+                                      context, _recurringTransactions[index]),
+                            ),
+                ),
+              ],
+            ),
           ),
+          floatingActionButton: _tabController.index == 0
+              ? FloatingActionButton.extended(
+                  heroTag: 'addTransaction',
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => AddTransactionScreen(
+                          service: widget.service,
+                          accountId: widget.accountId,
+                        ),
+                      ),
+                    );
+                  },
+                  icon: const Icon(Icons.add),
+                  label: const Text('Transaction'),
+                )
+              : FloatingActionButton.extended(
+                  heroTag: 'addRecurring',
+                  onPressed: () async {
+                    final result = await Navigator.push<bool>(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => AddRecurringTransactionScreen(
+                          service: widget.service,
+                          accountId: widget.accountId,
+                        ),
+                      ),
+                    );
+                    if (result == true) _fetchRecurring();
+                  },
+                  icon: const Icon(Icons.add),
+                  label: const Text('Recurring'),
+                ),
         );
       },
     );
@@ -272,24 +357,103 @@ class _AccountDetailScreenState extends State<AccountDetailScreen> {
     );
   }
 
-  Widget _buildEmptyTransactions(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(
-            Icons.receipt_long_outlined,
-            size: 64,
-            color: Theme.of(context).colorScheme.outline,
+  Widget _buildEmptyState(
+      BuildContext context, IconData icon, String message) {
+    return ListView(
+      children: [
+        const SizedBox(height: 80),
+        Icon(icon, size: 64, color: Theme.of(context).colorScheme.outline),
+        const SizedBox(height: 12),
+        Text(
+          message,
+          textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                color: Theme.of(context).colorScheme.outline,
+              ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildRecurringTile(BuildContext context, RecurringTransaction r) {
+    final isPositive = r.amount >= 0;
+    final colorScheme = Theme.of(context).colorScheme;
+    return Dismissible(
+      key: ValueKey('recurring_${r.id}'),
+      direction: DismissDirection.endToStart,
+      background: Container(
+        alignment: Alignment.centerRight,
+        padding: const EdgeInsets.only(right: 20),
+        color: colorScheme.error,
+        child: const Icon(Icons.delete, color: Colors.white),
+      ),
+      confirmDismiss: (_) async {
+        return await showDialog<bool>(
+          context: context,
+          builder: (ctx) => AlertDialog(
+            title: const Text('Delete Recurring Transaction'),
+            content: Text('Delete "${r.description}"?'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(ctx, false),
+                child: const Text('Cancel'),
+              ),
+              TextButton(
+                onPressed: () => Navigator.pop(ctx, true),
+                child: const Text('Delete'),
+              ),
+            ],
           ),
-          const SizedBox(height: 12),
-          Text(
-            'No transactions yet',
-            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  color: Theme.of(context).colorScheme.outline,
-                ),
+        );
+      },
+      onDismissed: (_) async {
+        await widget.service.deleteRecurringTransaction(r.id);
+        _fetchRecurring();
+      },
+      child: ListTile(
+        onTap: () async {
+          final result = await Navigator.push<bool>(
+            context,
+            MaterialPageRoute(
+              builder: (_) => AddRecurringTransactionScreen(
+                service: widget.service,
+                accountId: widget.accountId,
+                existing: r,
+              ),
+            ),
+          );
+          if (result == true) _fetchRecurring();
+        },
+        leading: CircleAvatar(
+          backgroundColor: isPositive
+              ? Colors.green.withValues(alpha: 0.1)
+              : Colors.red.withValues(alpha: 0.1),
+          child: Icon(Icons.repeat,
+              color: isPositive ? Colors.green : Colors.red),
+        ),
+        title: Text(
+          r.description,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
+        subtitle: Text(
+          '${r.frequency.label} \u2022 Next: '
+          '${r.nextExecutionDate.day.toString().padLeft(2, '0')}.'
+          '${r.nextExecutionDate.month.toString().padLeft(2, '0')}.'
+          '${r.nextExecutionDate.year}'
+          '${r.isActive ? '' : ' \u2022 Paused'}',
+          style: TextStyle(
+            color: r.isActive ? colorScheme.outline : colorScheme.error,
           ),
-        ],
+        ),
+        trailing: Text(
+          '${isPositive ? '+' : ''}${r.amount.toStringAsFixed(2)} \u20AC',
+          style: TextStyle(
+            fontWeight: FontWeight.w600,
+            fontSize: 16,
+            color: isPositive ? Colors.green : Colors.red,
+          ),
+        ),
       ),
     );
   }

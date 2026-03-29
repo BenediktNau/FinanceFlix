@@ -1,5 +1,6 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using FinanceFlix.Models.Auth;
 using Microsoft.Extensions.Options;
@@ -10,6 +11,8 @@ namespace FinanceFlix.Services.Auth;
 public class TokenService(IOptions<AuthSettings> authSettings) : ITokenService
 {
     private readonly JwtSettings _jwt = authSettings.Value.Jwt;
+
+    public int ExpirationSeconds => _jwt.ExpirationMinutes * 60;
 
     public string GenerateToken(string userId, string email)
     {
@@ -31,5 +34,21 @@ public class TokenService(IOptions<AuthSettings> authSettings) : ITokenService
             signingCredentials: credentials);
 
         return new JwtSecurityTokenHandler().WriteToken(token);
+    }
+
+    public RefreshToken GenerateRefreshToken(int userId)
+    {
+        var randomBytes = new byte[64];
+        using var rng = RandomNumberGenerator.Create();
+        rng.GetBytes(randomBytes);
+
+        return new RefreshToken
+        {
+            Token = Convert.ToBase64String(randomBytes),
+            UserId = userId,
+            CreatedAt = DateTime.UtcNow,
+            ExpiresAt = DateTime.UtcNow.AddDays(30),
+            IsRevoked = false
+        };
     }
 }

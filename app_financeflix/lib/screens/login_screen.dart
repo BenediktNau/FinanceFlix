@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:app_financeflix/services/auth_service.dart';
+import 'package:app_financeflix/services/authenticated_http_client.dart';
 import 'package:app_financeflix/services/finance_service.dart';
 import 'package:app_financeflix/services/settings_service.dart';
 import 'package:app_financeflix/screens/account_list_screen.dart';
@@ -99,10 +100,12 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _navigateToApp() {
     final apiClient = widget.authService.createAuthenticatedClient();
+    final httpClient = AuthenticatedHttpClient(widget.authService);
     final service = FinanceService(
       apiClient: apiClient,
       serverUrl: widget.authService.serverUrl,
-      token: widget.authService.token,
+      httpClient: httpClient,
+      authService: widget.authService,
     );
     Navigator.of(context).pushAndRemoveUntil(
       MaterialPageRoute(

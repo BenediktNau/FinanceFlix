@@ -7,20 +7,25 @@ using FinanceFlix.Features.Accounts.Queries;
 using FinanceFlix.Features.Auth.Commands;
 using FinanceFlix.Features.MailInboxes.Commands;
 using FinanceFlix.Features.MailInboxes.Queries;
+using FinanceFlix.Features.RecurringTransactions.Commands;
+using FinanceFlix.Features.RecurringTransactions.Queries;
 using FinanceFlix.Features.Transactions.Commands;
 using FinanceFlix.Features.Transactions.Queries;
 using FinanceFlix.Models.Account;
 using FinanceFlix.Models.Auth;
 using FinanceFlix.Models.Common;
 using FinanceFlix.Models.MailInbox;
+using FinanceFlix.Models.RecurringTransaction;
 using FinanceFlix.Models.Transaction;
 using FinanceFlix.Models.TransactionImage;
 using FinanceFlix.Pipeline;
 using FinanceFlix.Repositories.Account;
 using FinanceFlix.Repositories.Auth;
 using FinanceFlix.Repositories.MailInbox;
+using FinanceFlix.Repositories.RecurringTransaction;
 using FinanceFlix.Repositories.Transaction;
 using FinanceFlix.Repositories.TransactionImage;
+using FinanceFlix.Services;
 using FinanceFlix.Services.AI;
 using FinanceFlix.Services.Auth;
 using FinanceFlix.Services.Mail;
@@ -68,6 +73,7 @@ else
         });
 
     builder.Services.AddScoped<IUserRepository, UserRepository>();
+    builder.Services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
     builder.Services.AddScoped<ITokenService, TokenService>();
 }
 
@@ -80,12 +86,16 @@ builder.Services.AddOpenApi()
     .AddScoped<IAccountRepository, AccountRepository>()
     .AddScoped<IMailInboxRepository, MailInboxRepository>()
     .AddScoped<ITransactionImageRepository, TransactionImageRepository>()
+    .AddScoped<IRecurringTransactionRepository, RecurringTransactionRepository>()
     .AddScoped<ICategorizationService, CategorizationService>();
+
+builder.Services.AddHostedService<RecurringTransactionExecutorService>();
 
 var featuresConfig = builder.Configuration.GetSection("Features");
 if (featuresConfig.GetValue<bool>("MailInboxEnabled"))
 {
-    builder.Services.AddHostedService<MailListenerService>();
+    builder.Services.AddSingleton<MailListenerService>();
+    builder.Services.AddHostedService(sp => sp.GetRequiredService<MailListenerService>());
 }
 
 var app = builder.Build();
@@ -112,6 +122,10 @@ if (authSettings.Mode != "Sso")
         await mediator.Send(new RegisterCommand(req.Email, req.Password)));
     authApi.MapPost("/login", async (LoginRequest req, IMediator mediator) =>
         await mediator.Send(new LoginCommand(req.Email, req.Password)));
+    authApi.MapPost("/refresh", async (RefreshRequest req, IMediator mediator) =>
+        await mediator.Send(new RefreshCommand(req.RefreshToken)));
+    authApi.MapPost("/logout", async (RefreshRequest req, IMediator mediator) =>
+        await mediator.Send(new LogoutCommand(req.RefreshToken)));
 }
 
 var accountApi = app.MapGroup("/account").RequireAuthorization();
@@ -147,6 +161,42 @@ transactionApi.MapGet("/{id}/image/{imageId}", async (int id, int imageId, ITran
     var bytes = await File.ReadAllBytesAsync(image.FilePath);
     return Results.File(bytes, image.ContentType);
 });
+transactionApi.MapPost("/{id}/image", async (int id, IFormFile file, ITransactionRepository txRepo, ITransactionImageRepository imgRepo) =>
+{
+    var transaction = await txRepo.GetByIdAsync(id);
+    if (transaction is null)
+        return Results.NotFound();
+    if (!file.ContentType.StartsWith("image/"))
+        return Results.BadRequest("File must be an image");
+    if (file.Length > 10 * 1024 * 1024)
+        return Results.BadRequest("File too large (max 10MB)");
+
+    var imagesDir = Path.Combine(
+        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+        "FinanceFlix", "images");
+    Directory.CreateDirectory(imagesDir);
+
+    var ext = file.ContentType.Split('/').Last().ToLowerInvariant() switch
+    {
+        "jpeg" => "jpg",
+        var s => s
+    };
+    var filePath = Path.Combine(imagesDir, $"{Guid.NewGuid()}.{ext}");
+
+    await using (var stream = File.Create(filePath))
+    {
+        await file.CopyToAsync(stream);
+    }
+
+    var image = await imgRepo.AddAsync(new TransactionImage
+    {
+        TransactionId = id,
+        FilePath = filePath,
+        ContentType = file.ContentType
+    });
+
+    return Results.Ok(image.Id);
+}).DisableAntiforgery();
 
 var mailInboxApi = app.MapGroup("/mailinbox").RequireAuthorization();
 mailInboxApi.MapGet("/{accountId}", async (int accountId, IMediator mediator) =>
@@ -156,16 +206,29 @@ mailInboxApi.MapPost("/", async (CreateMailInboxRequest req, IMediator mediator)
 mailInboxApi.MapDelete("/{id}", async (int id, IMediator mediator) =>
     await mediator.Send(new DeleteMailInboxCommand(id)));
 
+var recurringApi = app.MapGroup("/recurringtransaction").RequireAuthorization();
+recurringApi.MapGet("/{accountId}", async (int accountId, IMediator mediator) =>
+    await mediator.Send(new GetRecurringTransactionsByAccountQuery(accountId)));
+recurringApi.MapPost("/", async (CreateRecurringTransactionRequest req, IMediator mediator) =>
+    await mediator.Send(new CreateRecurringTransactionCommand(req.AccountId, req.Amount, req.Description, req.Category, req.Frequency, req.StartDate, req.EndDate)));
+recurringApi.MapPut("/{id}", async (int id, UpdateRecurringTransactionRequest req, IMediator mediator) =>
+    await mediator.Send(new UpdateRecurringTransactionCommand(id, req.Amount, req.Description, req.Category, req.Frequency, req.StartDate, req.EndDate, req.IsActive)));
+recurringApi.MapDelete("/{id}", async (int id, IMediator mediator) =>
+    await mediator.Send(new DeleteRecurringTransactionCommand(id)));
+
 app.Run("http://0.0.0.0:3000");
 
 // Request body records for POST/PUT endpoints
 record RegisterRequest(string Email, string Password);
 record LoginRequest(string Email, string Password);
+record RefreshRequest(string RefreshToken);
 record CreateAccountRequest(string AccountName, decimal Balance);
 record UpdateAccountRequest(string AccountName, decimal Balance);
 record CreateTransactionRequest(int AccountId, decimal Amount, string? Description, TransactionCategory Category, DateTime Date);
 record UpdateTransactionRequest(decimal Amount, string? Description, TransactionCategory Category, DateTime Date);
 record CreateMailInboxRequest(int AccountId, string DisplayName, string ImapHost, int ImapPort, bool UseSsl, string Username, string Password, string FolderName);
+record CreateRecurringTransactionRequest(int AccountId, decimal Amount, string Description, TransactionCategory Category, RecurrenceFrequency Frequency, DateTime StartDate, DateTime? EndDate);
+record UpdateRecurringTransactionRequest(decimal Amount, string Description, TransactionCategory Category, RecurrenceFrequency Frequency, DateTime StartDate, DateTime? EndDate, bool IsActive);
 record ServerFeatures(bool AiEnabled, bool MailInboxEnabled);
 
 [JsonSerializable(typeof(Account))]
@@ -178,6 +241,9 @@ record ServerFeatures(bool AiEnabled, bool MailInboxEnabled);
 [JsonSerializable(typeof(Result<List<Transaction>>))]
 [JsonSerializable(typeof(Result<bool>))]
 [JsonSerializable(typeof(Result<string>))]
+[JsonSerializable(typeof(LoginResponse))]
+[JsonSerializable(typeof(Result<LoginResponse>))]
+[JsonSerializable(typeof(RefreshRequest))]
 [JsonSerializable(typeof(List<int>))]
 [JsonSerializable(typeof(TransactionImage))]
 [JsonSerializable(typeof(MailInbox))]
@@ -186,7 +252,13 @@ record ServerFeatures(bool AiEnabled, bool MailInboxEnabled);
 [JsonSerializable(typeof(Result<List<MailInbox>>))]
 [JsonSerializable(typeof(RegisterRequest))]
 [JsonSerializable(typeof(LoginRequest))]
+[JsonSerializable(typeof(RecurringTransaction))]
+[JsonSerializable(typeof(List<RecurringTransaction>))]
+[JsonSerializable(typeof(Result<RecurringTransaction>))]
+[JsonSerializable(typeof(Result<List<RecurringTransaction>>))]
 [JsonSerializable(typeof(CreateMailInboxRequest))]
+[JsonSerializable(typeof(CreateRecurringTransactionRequest))]
+[JsonSerializable(typeof(UpdateRecurringTransactionRequest))]
 [JsonSerializable(typeof(CreateAccountRequest))]
 [JsonSerializable(typeof(UpdateAccountRequest))]
 [JsonSerializable(typeof(CreateTransactionRequest))]

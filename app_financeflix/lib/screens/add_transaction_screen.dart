@@ -1,4 +1,6 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:app_financeflix/models/transaction_category.dart';
 import 'package:app_financeflix/services/finance_service.dart';
 
@@ -23,6 +25,8 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
   TransactionCategory _selectedCategory = TransactionCategory.other;
   DateTime _selectedDate = DateTime.now();
   bool _isIncome = false;
+  final List<XFile> _selectedImages = [];
+  bool _submitting = false;
 
   @override
   void dispose() {
@@ -43,20 +47,74 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
     }
   }
 
+  Future<void> _pickImage(ImageSource source) async {
+    final picker = ImagePicker();
+    if (source == ImageSource.gallery) {
+      final images = await picker.pickMultiImage();
+      if (images.isNotEmpty) {
+        setState(() => _selectedImages.addAll(images));
+      }
+    } else {
+      final image = await picker.pickImage(source: source);
+      if (image != null) {
+        setState(() => _selectedImages.add(image));
+      }
+    }
+  }
+
+  void _showImageSourceSheet() {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: const Icon(Icons.camera_alt),
+              title: const Text('Camera'),
+              onTap: () {
+                Navigator.pop(context);
+                _pickImage(ImageSource.camera);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.photo_library),
+              title: const Text('Gallery'),
+              onTap: () {
+                Navigator.pop(context);
+                _pickImage(ImageSource.gallery);
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
-    final amount = double.parse(_amountController.text);
-    final signedAmount = _isIncome ? amount : -amount;
-    final description = _descriptionController.text.trim();
-    await widget.service.addTransaction(
-      widget.accountId,
-      signedAmount,
-      description.isEmpty ? null : description,
-      _selectedCategory,
-      _selectedDate,
-    );
-    if (!mounted) return;
-    Navigator.pop(context);
+    setState(() => _submitting = true);
+    try {
+      final amount = double.parse(_amountController.text);
+      final signedAmount = _isIncome ? amount : -amount;
+      final description = _descriptionController.text.trim();
+      final txId = await widget.service.addTransaction(
+        widget.accountId,
+        signedAmount,
+        description.isEmpty ? null : description,
+        _selectedCategory,
+        _selectedDate,
+      );
+      if (txId != null) {
+        for (final image in _selectedImages) {
+          await widget.service.uploadTransactionImage(txId, image.path);
+        }
+      }
+      if (!mounted) return;
+      Navigator.pop(context);
+    } finally {
+      if (mounted) setState(() => _submitting = false);
+    }
   }
 
   @override
@@ -124,7 +182,6 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
                   labelText: 'Description (optional)',
                   hintText: 'e.g. Grocery shopping',
                   prefixIcon: Icon(Icons.description),
-
                 ),
               ),
               const SizedBox(height: 16),
@@ -133,7 +190,6 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
                 decoration: const InputDecoration(
                   labelText: 'Category',
                   prefixIcon: Icon(Icons.category),
-
                 ),
                 items: TransactionCategory.values
                     .map((cat) => DropdownMenuItem(
@@ -158,7 +214,6 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
                   decoration: const InputDecoration(
                     labelText: 'Date',
                     prefixIcon: Icon(Icons.calendar_today),
-  
                   ),
                   child: Text(
                     '${_selectedDate.day.toString().padLeft(2, '0')}.'
@@ -167,13 +222,87 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
                   ),
                 ),
               ),
+              const SizedBox(height: 16),
+              // Image picker section
+              Text(
+                'Photos',
+                style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                      color: Theme.of(context).colorScheme.outline,
+                    ),
+              ),
+              const SizedBox(height: 8),
+              SizedBox(
+                height: 100,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: [
+                    ..._selectedImages.asMap().entries.map((entry) => Padding(
+                          padding: const EdgeInsets.only(right: 8),
+                          child: Stack(
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(12),
+                                child: Image.file(
+                                  File(entry.value.path),
+                                  width: 100,
+                                  height: 100,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              Positioned(
+                                top: 2,
+                                right: 2,
+                                child: GestureDetector(
+                                  onTap: () => setState(
+                                      () => _selectedImages.removeAt(entry.key)),
+                                  child: Container(
+                                    decoration: const BoxDecoration(
+                                      color: Colors.black54,
+                                      shape: BoxShape.circle,
+                                    ),
+                                    padding: const EdgeInsets.all(4),
+                                    child: const Icon(Icons.close,
+                                        size: 16, color: Colors.white),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        )),
+                    GestureDetector(
+                      onTap: _showImageSourceSheet,
+                      child: Container(
+                        width: 100,
+                        height: 100,
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Theme.of(context).colorScheme.outline,
+                            width: 1.5,
+                          ),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Icon(
+                          Icons.add_a_photo,
+                          color: Theme.of(context).colorScheme.outline,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
               const SizedBox(height: 32),
               FilledButton(
-                onPressed: _submit,
-                child: const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 12),
-                  child:
-                      Text('Add Transaction', style: TextStyle(fontSize: 16)),
+                onPressed: _submitting ? null : _submit,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  child: _submitting
+                      ? const SizedBox(
+                          height: 20,
+                          width: 20,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
+                      : const Text('Add Transaction',
+                          style: TextStyle(fontSize: 16)),
                 ),
               ),
             ],

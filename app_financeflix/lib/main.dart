@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:app_financeflix/services/auth_service.dart';
+import 'package:app_financeflix/services/authenticated_http_client.dart';
 import 'package:app_financeflix/services/finance_service.dart';
 import 'package:app_financeflix/services/settings_service.dart';
 import 'package:app_financeflix/screens/server_connection_screen.dart';
 import 'package:app_financeflix/screens/login_screen.dart';
 import 'package:app_financeflix/screens/account_list_screen.dart';
+
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,6 +20,19 @@ void main() async {
   if (authService.serverUrl != null) {
     await settingsService.fetchFromServer(authService.serverUrl!);
   }
+
+  // Set up force logout callback: navigate to login screen
+  authService.onForceLogout = () {
+    navigatorKey.currentState?.pushAndRemoveUntil(
+      MaterialPageRoute(
+        builder: (_) => LoginScreen(
+          authService: authService,
+          settingsService: settingsService,
+        ),
+      ),
+      (_) => false,
+    );
+  };
 
   runApp(FinanceFlixApp(
     authService: authService,
@@ -37,6 +53,7 @@ class FinanceFlixApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: navigatorKey,
       title: 'FinanceFlix',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -124,10 +141,12 @@ class FinanceFlixApp extends StatelessWidget {
   Widget _buildHome() {
     if (authService.isLoggedIn) {
       final apiClient = authService.createAuthenticatedClient();
+      final httpClient = AuthenticatedHttpClient(authService);
       final service = FinanceService(
         apiClient: apiClient,
         serverUrl: authService.serverUrl,
-        token: authService.token,
+        httpClient: httpClient,
+        authService: authService,
       );
       return AccountListScreen(
         service: service,
