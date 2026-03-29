@@ -86,9 +86,17 @@ public class MailListenerService : BackgroundService
 
                 await client.ConnectAsync(inbox.ImapHost, inbox.ImapPort, sslOptions, ct);
                 await client.AuthenticateAsync(inbox.Username, inbox.Password, ct);
-
-                _logger.LogInformation("Connected to {DisplayName} ({Host}:{Port})",
+                if (client.IsAuthenticated)
+                {
+                    _logger.LogInformation("Connected to {DisplayName} ({Host}:{Port})",
                     inbox.DisplayName, inbox.ImapHost, inbox.ImapPort);
+                }
+                else
+                {
+                    _logger.LogInformation("Failed to connect to {DisplayName} ({Host}:{Port})",
+                    inbox.DisplayName, inbox.ImapHost, inbox.ImapPort);
+                }
+                
 
                 var folder = string.Equals(inbox.FolderName, "INBOX", StringComparison.OrdinalIgnoreCase)
                     ? client.Inbox
