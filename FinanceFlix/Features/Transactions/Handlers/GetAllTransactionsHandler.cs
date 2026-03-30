@@ -20,6 +20,7 @@ namespace FinanceFlix.Features.Transactions.Handlers
         {
             try
             {
+                
                 var transactions = await _repository.GetAllAsync(cancellationToken);
                 return Result<List<Transaction>>.Success(transactions);
             }
