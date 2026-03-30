@@ -23,6 +23,15 @@ This project is in active development. Current status:
 - Dynamic mail inbox registration (listener starts immediately on add) — done
 - Flutter mobile app with full feature parity — done
 
+On Development:
+
+- Transaction Search
+- Dashboard for getting finance tipps
+- Scanning Pictures for documents/receipts
+- Selection of Databseoptions
+- Better UI XD
+- AI Optimization
+
 ## Getting Started
 
 ### Prerequisites
